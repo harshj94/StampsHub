@@ -72,7 +72,7 @@ class DB_Functions {
         if ($result) {
             // get user details 
             $uid = mysql_insert_id(); // last inserted id
-            $result = mysql_query("SELECT * FROM users WHERE uid = $uid");
+            $result = mysql_query("SELECT * FROM buyer WHERE uid = $uid");
             // return user details
             return mysql_fetch_array($result);
         } 

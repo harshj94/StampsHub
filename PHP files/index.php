@@ -172,6 +172,7 @@ if (isset($_POST['tag']) && $_POST['tag'] != '')
 				$response["user"]["user_gender"] = $user["user_gender"];
 				$response["user"]["phone_number"] = $user["phone_number"];
 				$response["user"]["date_of_birth"] = $user["date_of_birth"];
+                                $response["user"]["uid"] = $user["unique_id"];
 				$response["user"]["created_at"] = $user["created_at"];
 				mail($email_id,$subject,$message,$headers);
             

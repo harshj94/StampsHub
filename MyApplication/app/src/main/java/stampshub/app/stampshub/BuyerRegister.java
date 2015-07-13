@@ -24,6 +24,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,6 +53,7 @@ public class BuyerRegister extends AppCompatActivity {
     TextView dateofbirth_disp;
 
     private static String KEY_SUCCESS = "success";
+    private static String KEY_UID = "uid";
     private static String KEY_UTYPE = "utype";
     private static String KEY_FIRSTNAME = "first_name";
     private static String KEY_LASTNAME = "last_name";
@@ -280,13 +282,15 @@ public class BuyerRegister extends AppCompatActivity {
 
                         UserFunctions logout = new UserFunctions();
                         logout.logoutUser(getApplicationContext());
-                        db.addUser(json_user.getString(KEY_UTYPE),json_user.getString(KEY_FIRSTNAME),json_user.getString(KEY_LASTNAME),json_user.getString(KEY_EMAIL),json_user.getString(KEY_GENDER), json_user.getString(KEY_PHNNUM), json_user.getString(KEY_DOB),json_user.getString(KEY_CREATED_AT));
+                        db.addUser(json_user.getString(KEY_UTYPE), json_user.getString(KEY_FIRSTNAME), json_user.getString(KEY_LASTNAME), json_user.getString(KEY_EMAIL), json_user.getString(KEY_GENDER), json_user.getString(KEY_PHNNUM), json_user.getString(KEY_DOB), json_user.getString(KEY_UID), json_user.getString(KEY_CREATED_AT));
+
                         /**
                          * Stores registered data in SQlite Database
                          * Launch Registered screen
                          **/
 
                         Intent registered = new Intent(getApplicationContext(), BuyerRegistered.class);
+
 
                         /**
                          * Close all views before launching Registered screen

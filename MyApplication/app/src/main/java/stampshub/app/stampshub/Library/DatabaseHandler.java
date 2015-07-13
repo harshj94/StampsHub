@@ -18,10 +18,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     // Database Name
-    private static final String DATABASE_NAME = "cloud_contacts";
+    private static final String DATABASE_NAME = "stampshub";
 
     // Login table name
-    private static final String TABLE_LOGIN = "login";
+    private static final String TABLE_LOGIN = "buyer";
 
     // Login Table Columns names
     private static final String KEY_ID = "id";
@@ -32,6 +32,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_GENDER = "user_gender";
     private static final String KEY_PHNNUM = "phone_number";
     private static final String KEY_DOB = "date_of_birth";
+    private static final String KEY_UID = "uid";
     private static final String KEY_CREATED_AT = "created_at";
 
     public DatabaseHandler(Context context) {
@@ -50,7 +51,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + KEY_GENDER+" TEXT,"
                 + KEY_PHNNUM+" TEXT,"
                 + KEY_DOB+" TEXT,"
-                + KEY_CREATED_AT + " TEXT" + ")";
+                + KEY_UID + " TEXT,"
+                + KEY_CREATED_AT +" TEXT" + ")";
         db.execSQL(CREATE_LOGIN_TABLE);
     }
 
@@ -66,7 +68,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     /**
      * Storing user details in database
      * */
-    public void addUser(String utype,String first_name, String last_name, String email_id, String user_gender,String phone_number,String date_of_birth,String created_at)
+    public void addUser(String utype,String first_name, String last_name, String email_id, String user_gender,String phone_number,String date_of_birth,String uid,String created_at)
     {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -80,11 +82,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_GENDER, user_gender); // Gender
         values.put(KEY_PHNNUM, phone_number); // Phone Number
         values.put(KEY_DOB, date_of_birth); // Date of Birth
+        values.put(KEY_UID, uid); // Email
         values.put(KEY_CREATED_AT, created_at); // Created At
-
         // Inserting Row
         db.insert(TABLE_LOGIN, null, values);
-        db.close(); // Closing database connection
+        // Closing database connection
     }
 
 
@@ -99,6 +101,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(selectQuery, null);
         // Move to first row
         cursor.moveToFirst();
+
+        cursor.getCount();
         if(cursor.getCount() > 0)
         {
             user.put("utype",cursor.getString(1));
@@ -108,7 +112,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             user.put("user_gender",cursor.getString(5));
             user.put("phone_number",cursor.getString(6));
             user.put("date_of_birth",cursor.getString(7));
-            user.put("created_at", cursor.getString(8));
+            user.put("uid",cursor.getString(8));
+            user.put("created_at", cursor.getString(9));
         }
         cursor.close();
         db.close();
@@ -130,7 +135,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return rowCount;
     }
     /**
-     * Re crate database
+     * Re create database
      * Delete all tables and create them again
      * */
     public void resetTables(){

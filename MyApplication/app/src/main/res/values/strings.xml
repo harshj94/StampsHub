@@ -4,14 +4,11 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string-array name="security_question">
-        <item>Question 1</item>
-        <item>Question 2</item>
-        <item>Question 3</item>
-        <item>Question 4</item>
-        <item>Question 5</item>
-        <item>Question 6</item>
-        <item>Question 7</item>
-        <item>Question 8</item>
+        <item>Name of the city where your first job was located.</item>
+        <item>Name of your best friend at school.</item>
+        <item>Name of city where you were born.</item>
+        <item>Name of your favorite brand.</item>
+        <item>Name of your favorite food.</item>
     </string-array>
     <string name="title_activity_select_user_type">SelectUserType</string>
     <string name="title_activity_buyer_register">BuyerRegister</string>

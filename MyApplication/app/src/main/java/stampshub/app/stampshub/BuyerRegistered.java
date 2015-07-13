@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.HashMap;
 
@@ -34,12 +35,12 @@ public class BuyerRegistered extends AppCompatActivity {
         final TextView created_at = (TextView) findViewById(R.id.textView18);
 
         utype.setText(user.get("utype"));
-        fname.setText(user.get("fname"));
-        lname.setText(user.get("lname"));
-        email.setText(user.get("email"));
-        gender.setText(user.get("gender"));
-        phnnum.setText(user.get("phnnum"));
-        dob.setText(user.get("dob"));
+        fname.setText(user.get("first_name"));
+        lname.setText(user.get("last_name"));
+        email.setText(user.get("email_id"));
+        gender.setText(user.get("user_gender"));
+        phnnum.setText(user.get("phone_number"));
+        dob.setText(user.get("date_of_birth"));
         created_at.setText(user.get("created_at"));
     }
 
