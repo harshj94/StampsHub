@@ -1,30 +1,38 @@
 package stampshub.app.stampshub;
 
+import android.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.parse.ParseUser;
 
 import java.util.HashMap;
 
 import stampshub.app.stampshub.Library.DatabaseHandler;
+import stampshub.app.stampshub.Library.UserFunctions;
 
 
 public class BuyerRegistered extends AppCompatActivity {
 
+    Button btnlogout;
+    ParseUser currentUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buyer_registered);
 
-        DatabaseHandler db = new DatabaseHandler(getApplicationContext());
+        btnlogout=(Button)findViewById(R.id.logout);
 
-        HashMap<String, String> user = new HashMap<String, String>();
-        user = db.getUserDetails();
-
+        currentUser=ParseUser.getCurrentUser();
         final TextView utype = (TextView) findViewById(R.id.textView4);
         final TextView fname = (TextView) findViewById(R.id.textView6);
         final TextView lname = (TextView) findViewById(R.id.textView8);
@@ -34,14 +42,14 @@ public class BuyerRegistered extends AppCompatActivity {
         final TextView dob = (TextView) findViewById(R.id.textView16);
         final TextView created_at = (TextView) findViewById(R.id.textView18);
 
-        utype.setText(user.get("utype"));
-        fname.setText(user.get("first_name"));
-        lname.setText(user.get("last_name"));
-        email.setText(user.get("email_id"));
-        gender.setText(user.get("user_gender"));
-        phnnum.setText(user.get("phone_number"));
-        dob.setText(user.get("date_of_birth"));
-        created_at.setText(user.get("created_at"));
+
+
+        btnlogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
 }

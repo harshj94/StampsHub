@@ -25,7 +25,9 @@ public class UserFunctions {
     private static String chgpassURL = "http://stampshubdemo.site50.net/";
 
     private static String login_tag = "login";
+    private static String login_tagbiz = "loginbiz";
     private static String register_tag = "register";
+    private static String register_tagbiz = "registerbiz";
     private static String forpass_tag = "forpass";
     private static String chgpass_tag = "chgpass";
 
@@ -42,6 +44,16 @@ public class UserFunctions {
         // Building Parameters
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("tag", login_tag));
+        params.add(new BasicNameValuePair("email", email));
+        params.add(new BasicNameValuePair("password", password));
+        JSONObject json = jsonParser.getJSONFromUrl(loginURL, params);
+        return json;
+    }
+
+    public JSONObject loginUserbiz(String email, String password){
+        // Building Parameters
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("tag", login_tagbiz));
         params.add(new BasicNameValuePair("email", email));
         params.add(new BasicNameValuePair("password", password));
         JSONObject json = jsonParser.getJSONFromUrl(loginURL, params);
@@ -91,13 +103,35 @@ public class UserFunctions {
         JSONObject json = jsonParser.getJSONFromUrl(registerURL,params);
         return json;
     }
+
+    public JSONObject registerUserbusinessowner(String utype, String business_name,String email_id,String address1,String address2,String address3,String country,String postcode,String security_question,String security_answer,String b_password){
+        // Building Parameters
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("tag", register_tagbiz));
+        params.add(new BasicNameValuePair("utype", utype));
+        params.add(new BasicNameValuePair("business_name", business_name));
+        params.add(new BasicNameValuePair("email_id", email_id));
+        params.add(new BasicNameValuePair("address1", address1));
+        params.add(new BasicNameValuePair("address2", address2));
+        params.add(new BasicNameValuePair("address3", address3));
+        params.add(new BasicNameValuePair("country", country));
+        params.add(new BasicNameValuePair("postcode", postcode));
+        params.add(new BasicNameValuePair("security_question", security_question));
+        params.add(new BasicNameValuePair("security_answer", security_answer));
+        params.add(new BasicNameValuePair("user_password", b_password));
+        JSONObject json = jsonParser.getJSONFromUrl(registerURL,params);
+        return json;
+    }
+
     /**
      * Function to logout user
      * Resets the temporary data stored in SQLite Database
      * */
     public boolean logoutUser(Context context){
         DatabaseHandler db = new DatabaseHandler(context);
+       DatabaseHandlerBusinessowner db1=new DatabaseHandlerBusinessowner(context);
         db.resetTables();
+       db1.resetTables();
         return true;
     }
 }

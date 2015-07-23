@@ -15,4 +15,5 @@
     <string name="title_activity_business_owner_register">BusinessOwnerRegister</string>
     <string name="title_activity_buyer_registered">BuyerRegistered</string>
     <string name="title_activity_forgot_password">ForgotPassword</string>
+    <string name="title_activity_business_owner_registered">BusinessOwnerRegistered</string>
 </resources>

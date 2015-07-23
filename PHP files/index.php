@@ -25,19 +25,23 @@ if (isset($_POST['tag']) && $_POST['tag'] != '')
 
         // check for user
         $user = $db->getUserByEmailAndPassword($email, $password);
+        
     
 		if ($user != false) 
 		{
             // user found
             // echo json with success = 1
 			
-            $response["success"] = 1;
-            $response["user"]["fname"] = $user["firstname"];
-            $response["user"]["lname"] = $user["lastname"];
-            $response["user"]["email"] = $user["email"];
-			$response["user"]["uname"] = $user["username"];
-            $response["user"]["uid"] = $user["unique_id"];
-            $response["user"]["created_at"] = $user["created_at"];
+        $response["success"] = 1;
+	    $response["user"]["utype"] = $user["utype"];
+		$response["user"]["first_name"] = $user["first_name"];
+		$response["user"]["last_name"] = $user["last_name"];
+		$response["user"]["email_id"] = $user["email_id"];
+		$response["user"]["user_gender"] = $user["user_gender"];
+		$response["user"]["phone_number"] = $user["phone_number"];
+		$response["user"]["date_of_birth"] = $user["date_of_birth"];
+                $response["user"]["uid"] = $user["unique_id"];
+		$response["user"]["created_at"] = $user["created_at"];
             
             echo json_encode($response);
         } 
@@ -47,9 +51,12 @@ if (isset($_POST['tag']) && $_POST['tag'] != '')
             // echo json with error = 1
             $response["error"] = 1;
             $response["error_msg"] = "Incorrect email or password!";
+
             echo json_encode($response);
         }
     } 
+	
+	
 	
 	else if ($tag == 'chgpass')
 	{
@@ -87,6 +94,7 @@ if (isset($_POST['tag']) && $_POST['tag'] != '')
 
 		}
 	}
+
 	
 	else if ($tag == 'forpass')
 	{
@@ -172,7 +180,7 @@ if (isset($_POST['tag']) && $_POST['tag'] != '')
 				$response["user"]["user_gender"] = $user["user_gender"];
 				$response["user"]["phone_number"] = $user["phone_number"];
 				$response["user"]["date_of_birth"] = $user["date_of_birth"];
-                                $response["user"]["uid"] = $user["unique_id"];
+                $response["user"]["uid"] = $user["unique_id"];
 				$response["user"]["created_at"] = $user["created_at"];
 				mail($email_id,$subject,$message,$headers);
             
@@ -187,6 +195,74 @@ if (isset($_POST['tag']) && $_POST['tag'] != '')
             }
         }
     } 
+	
+	else if ($tag == 'registerbiz') 
+	{
+        // Request type is Register new user
+		$utype = $_POST['utype'];
+		$business_name = $_POST['business_name'];
+		$email_id = $_POST['email_id'];
+		$address1 = $_POST['address1'];
+		$address2 = $_POST['address2'];
+		$address3 = $_POST['address3'];
+		$country = $_POST['country'];
+		$postcode = $_POST['postcode'];
+		$security_question = $_POST['security_question'];
+		$security_answer = $_POST['security_answer'];
+		$password = $_POST['password'];
+           
+		$subject = "Registration";
+		$message = "Hello $business_name,\n\nYou have sucessfully registered to our service.\n\nRegards,\nStampsHub.";
+		$from = "harsh@stampshubdemo.site50.net";
+		$headers = "From:" . $from;
+
+        // check if user is already existed
+        if ($db->isUserExistedbiz($email_id)) 
+		{
+            // user is already existed - error response
+            $response["error"] = 2;
+            $response["error_msg"] = "User already existed";
+            echo json_encode($response);
+        } 
+		else if(!$db->validEmail($email_id))
+		{
+            $response["error"] = 3;
+            $response["error_msg"] = "Invalid Email Id";
+            echo json_encode($response);             
+		}
+		else 
+		{
+            // store user
+            $user = $db->storeUserbiz($utype,$business_name,$email_id,$address1,$address2,$address3,$country,$postcode,$security_question,$security_answer,$password);
+            if ($user) 
+			{
+                // user stored successfully
+				$response["success"] = 1;
+				$response["user"]["utype"] = $user["utype"];
+				$response["user"]["business_name"] = $user["business_name"];
+				$response["user"]["email_id"] = $user["email_id"];
+				$response["user"]["address1"] = $user["address1"];
+				$response["user"]["address2"] = $user["address2"];
+				$response["user"]["address3"] = $user["address3"];
+				$response["user"]["country"] = $user["country"];
+                $response["user"]["postcode"] = $user["postcode"];
+				$response["user"]["uid"] = $user["unique_id"];
+				$response["user"]["created_at"] = $user["created_at"];
+				mail($email_id,$subject,$message,$headers);
+            
+                echo json_encode($response);
+            } 
+			else 
+			{
+                // user failed to store
+                $response["error"] = 1;
+                $response["error_msg"] = "JSON Error occured in Registartion";
+                echo json_encode($response);
+            }
+        }
+    }
+	
+	
 	else 
 	{
 		$response["error"] = 3;

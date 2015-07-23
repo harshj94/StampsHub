@@ -81,6 +81,31 @@ class DB_Functions {
             return false;
         }
     }
+	
+	/**
+     * Adding new user to mysql database
+     * returns user details
+     */
+    public function storeUserbiz($utype,$business_name,$email_id,$address1,$address2,$address3,$country,$postcode,$security_question,$security_answer,$password) 
+	{
+        $uuid = uniqid('', true);
+        $hash = $this->hashSSHA($user_password);
+        $encrypted_password = $hash["encrypted"]; // encrypted password
+        $salt = $hash["salt"]; // salt
+        $result = mysql_query("INSERT INTO business_owner(unique_id,utype,business_name,email_id,address1,address2,address3,country,postcode,security_question,security_answer,encrypted_password, salt, created_at) VALUES('$uuid','$utype','$business_name','$email_id','$address1','$address2','$address3','$country','$postcode','$security_question','$security_answer', '$encrypted_password', '$salt', NOW())");
+        // check for successful store
+        if ($result) {
+            // get user details 
+            $uid = mysql_insert_id(); // last inserted id
+            $result = mysql_query("SELECT * FROM business_owner WHERE uid = $uid");
+            // return user details
+            return mysql_fetch_array($result);
+        } 
+		else 
+		{
+            return false;
+        }
+    }
 
     /**
      * Verifies user by email and password
@@ -88,7 +113,32 @@ class DB_Functions {
     
 	public function getUserByEmailAndPassword($email, $password) 
 	{
-        $result = mysql_query("SELECT * FROM users WHERE email = '$email'") or die(mysql_error());
+        $result = mysql_query("SELECT * FROM buyer WHERE email_id = '$email'") or die(mysql_error());
+        // check for result 
+        $no_of_rows = mysql_num_rows($result);
+        if ($no_of_rows > 0) 
+		{
+            $result = mysql_fetch_array($result);
+            $salt = $result['salt'];
+            $encrypted_password = $result['encrypted_password'];
+            $hash = $this->checkhashSSHA($salt, $password);
+            // check for password equality
+            if ($encrypted_password == $hash) 
+			{
+                // user authentication details are correct
+                return $result;
+            }
+        }
+		else 
+		{
+            // user not found
+            return false;
+        }
+    }
+	
+	public function getUserByEmailAndPasswordbiz($email, $password) 
+	{
+        $result = mysql_query("SELECT * FROM business_owner WHERE email_id = '$email'") or die(mysql_error());
         // check for result 
         $no_of_rows = mysql_num_rows($result);
         if ($no_of_rows > 0) 
@@ -181,6 +231,18 @@ class DB_Functions {
      */
     public function isUserExisted($email) {
         $result = mysql_query("SELECT email_id from buyer WHERE email_id = '$email'");
+        $no_of_rows = mysql_num_rows($result);
+        if ($no_of_rows > 0) {
+            // user existed 
+            return true;
+        } else {
+            // user not existed
+            return false;
+        }
+    }
+	
+	public function isUserExistedbiz($email) {
+        $result = mysql_query("SELECT email_id from business_owner WHERE email_id = '$email'");
         $no_of_rows = mysql_num_rows($result);
         if ($no_of_rows > 0) {
             // user existed 

@@ -96,7 +96,7 @@
                     android:layout_height="40dp"
                     android:layout_alignParentLeft="true"
                     android:layout_below="@id/textView3"
-                    android:text="First Name"
+                    android:text="Business Name"
                     android:textColor="#000000"
                     android:textSize="15dp" />
 
@@ -114,7 +114,7 @@
                     android:id="@+id/textView7"
                     android:layout_width="125dp"
                     android:layout_height="40dp"
-                    android:text="Last Name"
+                    android:text="E-mail"
                     android:layout_below="@id/textView5"
                     android:layout_alignParentLeft="true"
                     android:textColor="#000000"
@@ -134,7 +134,7 @@
                     android:id="@+id/textView9"
                     android:layout_width="125dp"
                     android:layout_height="40dp"
-                    android:text="E-mail"
+                    android:text="Address1"
                     android:layout_below="@id/textView7"
                     android:layout_alignParentLeft="true"
                     android:textColor="#000000"
@@ -154,7 +154,7 @@
                     android:id="@+id/textView11"
                     android:layout_width="125dp"
                     android:layout_height="40dp"
-                    android:text="Gender"
+                    android:text="Address2"
                     android:layout_below="@id/textView9"
                     android:layout_alignParentLeft="true"
                     android:textColor="#000000"
@@ -175,7 +175,7 @@
                     android:id="@+id/textView13"
                     android:layout_width="125dp"
                     android:layout_height="40dp"
-                    android:text="Phone Number"
+                    android:text="Address3"
                     android:layout_below="@id/textView11"
                     android:layout_alignParentLeft="true"
                     android:textColor="#000000"
@@ -197,7 +197,7 @@
                     android:layout_below="@id/textView13"
                     android:layout_alignParentLeft="true"
                     android:layout_height="40dp"
-                    android:text="Date of Birth"
+                    android:text="Country"
                     android:textColor="#000000"
                     android:textSize="15dp" />
 
@@ -217,7 +217,7 @@
                     android:layout_below="@id/textView15"
                     android:layout_alignParentLeft="true"
                     android:layout_height="40dp"
-                    android:text="Created At:"
+                    android:text="postcode"
                     android:textColor="#000000"
                     android:textSize="15dp" />
 
@@ -232,10 +232,10 @@
                     android:textSize="15dp" />
 
                 <Button
-                    android:id="@+id/logout"
+                    android:id="@+id/login"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Logout"
+                    android:text="Back to Login"
                     style="@style/ButtonAppTheme"
                     android:layout_below="@id/textView18"
                     android:textColor="#000000"

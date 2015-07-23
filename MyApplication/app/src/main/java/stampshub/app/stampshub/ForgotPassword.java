@@ -13,5 +13,4 @@ public class ForgotPassword extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
     }
-
 }

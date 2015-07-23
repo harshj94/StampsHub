@@ -9,11 +9,8 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,21 +21,17 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.parse.ParseException;
+import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
-
-import stampshub.app.stampshub.Library.DatabaseHandler;
-import stampshub.app.stampshub.Library.UserFunctions;
 
 
 public class BuyerRegister extends AppCompatActivity {
@@ -51,20 +44,8 @@ public class BuyerRegister extends AppCompatActivity {
     DatePickerDialog datePickerDialog;
     SimpleDateFormat dateFormatter;
     TextView dateofbirth_disp;
-
-    private static String KEY_SUCCESS = "success";
-    private static String KEY_UID = "uid";
-    private static String KEY_UTYPE = "utype";
-    private static String KEY_FIRSTNAME = "first_name";
-    private static String KEY_LASTNAME = "last_name";
-    private static String KEY_EMAIL = "email_id";
-    private static String KEY_GENDER="user_gender";
-    private static String KEY_PHNNUM="phone_number";
-    private static String KEY_DOB="date_of_birth";
-    private static String KEY_CREATED_AT = "created_at";
-    private static String KEY_ERROR = "error";
-
-
+    ParseUser buyer;
+    int i;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +84,7 @@ public class BuyerRegister extends AppCompatActivity {
         });
 
         Calendar newCalendar = Calendar.getInstance();
+
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.UK);
 
         datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
@@ -123,8 +105,11 @@ public class BuyerRegister extends AppCompatActivity {
         });
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.security_question, android.R.layout.simple_spinner_item);
+
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         securityques.setAdapter(adapter);
+
         securityques.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -174,9 +159,6 @@ public class BuyerRegister extends AppCompatActivity {
                     if (urlc.getResponseCode() == 200) {
                         return true;
                     }
-                } catch (MalformedURLException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -189,7 +171,7 @@ public class BuyerRegister extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean th) {
 
-            if (th == true) {
+            if (th) {
                 nDialog.dismiss();
                 new ProcessRegister().execute();
             } else {
@@ -208,7 +190,7 @@ public class BuyerRegister extends AppCompatActivity {
     }
 
 
-    private class ProcessRegister extends AsyncTask<String, String, JSONObject> {
+    private class ProcessRegister extends AsyncTask<String, String, Integer> {
 
         /**
          * Defining Process dialog
@@ -241,104 +223,70 @@ public class BuyerRegister extends AppCompatActivity {
         }
 
         @Override
-        protected JSONObject doInBackground(String... args) {
+        protected Integer doInBackground(String... args) {
+            buyer=new ParseUser();
+            buyer.put("utype",utype);
+            buyer.put("first_business_name",first_name);
+            buyer.put("last_name_address1", last_name);
+            buyer.setEmail(email_id);
+            buyer.put("user_gender_country", user_gender);
+            buyer.put("phone_number_postcode",phone_number);
+            buyer.put("date_of_birth_address2",date_of_birth);
+            buyer.put("security_question",security_question);
+            buyer.put("security_answer", security_answer);
+            buyer.setPassword(user_password);
 
-            UserFunctions userFunction = new UserFunctions();
-            JSONObject json = userFunction.registerUser(utype, first_name, last_name, email_id, user_gender,phone_number, date_of_birth, security_question,security_answer,user_password);
-            return json;
+            buyer.setUsername(email_id);
+
+            buyer.signUpInBackground(new SignUpCallback() {
+                public void done(ParseException e) {
+                    if (e == null) {
+                        // Hooray! Let them use the app now.
+                        i=-111;
+                    }
+                    else
+                    {
+                        // Sign up didn't succeed. Look at the ParseException
+                        // to figure out what went wrong
+                        i=e.getCode();
+                    }
+                }
+            });
+            return i;
         }
 
         @Override
-        protected void onPostExecute(JSONObject json) {
-            /**
-             * Checks for success message.
-             **/
-            try {
-                if (json.getString(KEY_SUCCESS) != null) {
-                    String res = json.getString(KEY_SUCCESS);
-                    String red = json.getString(KEY_ERROR);
+        protected void onPostExecute(Integer i){
 
-                    if (Integer.parseInt(res) == 1) {
-                        pDialog.setTitle("Getting Data");
-                        pDialog.setMessage("Loading Info");
-
-                        new AlertDialog.Builder(BuyerRegister.this)
-                                .setTitle("Success")
-                                .setMessage("You are successfully registered.")
-                                .setNegativeButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                    }
-                                })
-                                .setIcon(android.R.drawable.ic_dialog_info)
-                                .show();
-
-
-                        DatabaseHandler db = new DatabaseHandler(getApplicationContext());
-                        JSONObject json_user = json.getJSONObject("user");
-
-                        /**
-                         * Removes all the previous data in the SQlite database
-                         **/
-
-                        UserFunctions logout = new UserFunctions();
-                        logout.logoutUser(getApplicationContext());
-                        db.addUser(json_user.getString(KEY_UTYPE), json_user.getString(KEY_FIRSTNAME), json_user.getString(KEY_LASTNAME), json_user.getString(KEY_EMAIL), json_user.getString(KEY_GENDER), json_user.getString(KEY_PHNNUM), json_user.getString(KEY_DOB), json_user.getString(KEY_UID), json_user.getString(KEY_CREATED_AT));
-
-                        /**
-                         * Stores registered data in SQlite Database
-                         * Launch Registered screen
-                         **/
-
-                        Intent registered = new Intent(getApplicationContext(), BuyerRegistered.class);
-
-
-                        /**
-                         * Close all views before launching Registered screen
-                         **/
-                        registered.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        pDialog.dismiss();
-                        startActivity(registered);
-                        finish();
-                    } else if (Integer.parseInt(red) == 2) {
-                        pDialog.dismiss();
-                        new AlertDialog.Builder(BuyerRegister.this)
-                                .setTitle("Error")
-                                .setMessage("User already exists")
-                                .setNegativeButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                    }
-                                })
-                                .setIcon(android.R.drawable.ic_dialog_info)
-                                .show();
-                    } else if (Integer.parseInt(red) == 3) {
-                        pDialog.dismiss();
-                        new AlertDialog.Builder(BuyerRegister.this)
-                                .setTitle("Error")
-                                .setMessage("Invalid Email id")
-                                .setNegativeButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                    }
-                                })
-                                .setIcon(android.R.drawable.ic_dialog_info)
-                                .show();
-                    }
-
-                } else {
-                    pDialog.dismiss();
-                    new AlertDialog.Builder(BuyerRegister.this)
-                            .setTitle("Error")
-                            .setMessage("Unknown error occured in registration")
-                            .setNegativeButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                }
-                            })
-                            .setIcon(android.R.drawable.ic_dialog_info)
-                            .show();
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
+            pDialog.cancel();
+            if(i!=0)
+            {
+                new AlertDialog.Builder(BuyerRegister.this)
+                        .setTitle("Error")
+                        .setMessage("Error in registration"+i)
+                        .setNegativeButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
             }
+            else
+            {
+                new AlertDialog.Builder(BuyerRegister.this)
+                        .setTitle("Success")
+                        .setMessage("You are succesfully registered.")
+                        .setNegativeButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_info)
+                        .show();
+                Intent i1=new Intent(getApplicationContext(),BuyerRegistered.class);
+                startActivity(i1);
+                finish();
+            }
+
         }
     }
     public void NetAsync(View view) {

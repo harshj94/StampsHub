@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,6 +27,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import stampshub.app.stampshub.Library.DatabaseHandler;
+import stampshub.app.stampshub.Library.DatabaseHandlerBusinessowner;
 import stampshub.app.stampshub.Library.UserFunctions;
 
 
@@ -47,6 +49,13 @@ public class LoginActivity extends AppCompatActivity {
     private static String KEY_PHNNUM="phone_number";
     private static String KEY_DOB="date_of_birth";
     private static String KEY_CREATED_AT = "created_at";
+    private static String KEY_bname = "business_name";
+    private static String KEY_bemail = "email_id";
+    private static String KEY_baddr1 = "address1";
+    private static String KEY_baddr2 = "address2";
+    private static String KEY_baddr3 = "address3";
+    private static String KEY_bcountry = "country";
+    private static String KEY_bpostcode = "postcode";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
         forgotpassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(getApplicationContext(),ForgotPassword.class);
+                Intent i = new Intent(getApplicationContext(), ForgotPassword.class);
                 startActivity(i);
                 overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
             }
@@ -94,6 +103,23 @@ public class LoginActivity extends AppCompatActivity {
                 NetAsync(v);
             }
         });
+
+//        DatabaseHandler db = new DatabaseHandler(getApplicationContext());
+//        DatabaseHandlerBusinessowner db1 = new DatabaseHandlerBusinessowner(getApplicationContext());
+//        int i=db.getRowCount();
+//        int j=db1.getRowCount();
+//        if(i==1)
+//        {
+//            Intent upanel = new Intent(getApplicationContext(), BuyerRegistered.class);
+//            upanel.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//            startActivity(upanel);
+//        }
+//        else if(j==1)
+//        {
+//            Intent upanel = new Intent(getApplicationContext(), BusinessOwnerRegistered.class);
+//            upanel.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//            startActivity(upanel);
+//        }
     }
 
     public void getUserType()
@@ -195,8 +221,9 @@ public class LoginActivity extends AppCompatActivity {
         protected JSONObject doInBackground(String... args) {
 
             UserFunctions userFunction = new UserFunctions();
-            JSONObject json = userFunction.loginUser(email, userpassword);
-            return json;
+                JSONObject json = userFunction.loginUserbiz(email, userpassword);
+                return json;
+
         }
 
         @Override
@@ -209,26 +236,31 @@ public class LoginActivity extends AppCompatActivity {
                     if(Integer.parseInt(res) == 1){
                         pDialog.setMessage("Loading User Space");
                         pDialog.setTitle("Getting Data");
-                        DatabaseHandler db = new DatabaseHandler(getApplicationContext());
+
                         JSONObject json_user = json.getJSONObject("user");
                         /**
                          * Clear all previous data in SQlite database.
                          **/
-                        UserFunctions logout = new UserFunctions();
-                        logout.logoutUser(getApplicationContext());
-                        db.addUser(json_user.getString(KEY_UTYPE), json_user.getString(KEY_FIRSTNAME), json_user.getString(KEY_LASTNAME), json_user.getString(KEY_EMAIL), json_user.getString(KEY_GENDER), json_user.getString(KEY_PHNNUM), json_user.getString(KEY_DOB), json_user.getString(KEY_UID), json_user.getString(KEY_CREATED_AT));
+//                        UserFunctions logout = new UserFunctions();
+//                        logout.logoutUser(getApplicationContext());
+
                         /**
                          *If JSON array details are stored in SQlite it launches the User Panel.
                          **/
-                        Intent upanel = new Intent(getApplicationContext(), BuyerRegistered.class);
-                        upanel.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        Intent upanel;
+                            DatabaseHandlerBusinessowner db = new DatabaseHandlerBusinessowner(getApplicationContext());
+                            db.adduser(json_user.getString(KEY_UTYPE), json_user.getString(KEY_bname), json_user.getString(KEY_bemail), json_user.getString(KEY_baddr1), json_user.getString(KEY_baddr2), json_user.getString(KEY_baddr3), json_user.getString(KEY_bcountry), json_user.getString(KEY_bpostcode), json_user.getString(KEY_UID), json_user.getString(KEY_CREATED_AT));
+                            upanel = new Intent(getApplicationContext(), BuyerRegistered.class);
+                            upanel.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         pDialog.dismiss();
                         startActivity(upanel);
                         /**
                          * Close Login Screen
                          **/
                         finish();
-                    }else{
+                    }
+                    else
+                    {
 
                         pDialog.dismiss();
                         new AlertDialog.Builder(LoginActivity.this)
