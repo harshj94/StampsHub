@@ -13,69 +13,61 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.parse.ParseException;
+import com.parse.ParseUser;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-
-import stampshub.app.stampshub.Library.DatabaseHandler;
-import stampshub.app.stampshub.Library.DatabaseHandlerBusinessowner;
-import stampshub.app.stampshub.Library.UserFunctions;
 
 
 public class LoginActivity extends AppCompatActivity {
 
-    TextView linktoregister,forgotpassword;
-    String usertypeselected;
-    RadioGroup usertype;
-    EditText emailid,password;
+    TextView linktoregister, forgotpassword;
+    EditText emailid, password;
     Button login;
-
-    private static String KEY_SUCCESS = "success";
-    private static String KEY_UID = "uid";
-    private static String KEY_UTYPE = "utype";
-    private static String KEY_FIRSTNAME = "first_name";
-    private static String KEY_LASTNAME = "last_name";
-    private static String KEY_EMAIL = "email_id";
-    private static String KEY_GENDER="user_gender";
-    private static String KEY_PHNNUM="phone_number";
-    private static String KEY_DOB="date_of_birth";
-    private static String KEY_CREATED_AT = "created_at";
-    private static String KEY_bname = "business_name";
-    private static String KEY_bemail = "email_id";
-    private static String KEY_baddr1 = "address1";
-    private static String KEY_baddr2 = "address2";
-    private static String KEY_baddr3 = "address3";
-    private static String KEY_bcountry = "country";
-    private static String KEY_bpostcode = "postcode";
+    ParseUser user;
+    Integer i;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        usertype=(RadioGroup)findViewById(R.id.usertype);
+        user=new ParseUser();
+        user=ParseUser.getCurrentUser();
+        if(user.getObjectId()!=null)
+        {
+            String s=user.getString("utype");
+            Intent i;
+            if(s.equals("Buyer"))
+            {
+                i=new Intent(getApplicationContext(),BuyerRegistered.class);
+                startActivity(i);
+            }
+            else if(s.equals("Businessowner"))
+            {
+                i=new Intent(getApplicationContext(),BusinessOwnerRegistered.class);
+                startActivity(i);
+            }
+            finish();
+        }
 
-        linktoregister=(TextView)findViewById(R.id.link_to_register);
-        forgotpassword=(TextView)findViewById(R.id.forgotpassword);
+        linktoregister = (TextView) findViewById(R.id.link_to_register);
+        forgotpassword = (TextView) findViewById(R.id.forgotpassword);
 
-        emailid=(EditText)findViewById(R.id.emailid);
-        password=(EditText)findViewById(R.id.password);
+        emailid = (EditText) findViewById(R.id.emailid);
+        password = (EditText) findViewById(R.id.password);
 
-        login=(Button)findViewById(R.id.btnLogin);
+        login = (Button) findViewById(R.id.btnLogin);
 
         linktoregister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(getApplicationContext(),SelectUserType.class);
+                Intent i = new Intent(getApplicationContext(), SelectUserType.class);
                 startActivity(i);
                 overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
             }
@@ -90,13 +82,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        usertype.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                getUserType();
-            }
-        });
-
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,50 +89,28 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-//        DatabaseHandler db = new DatabaseHandler(getApplicationContext());
-//        DatabaseHandlerBusinessowner db1 = new DatabaseHandlerBusinessowner(getApplicationContext());
-//        int i=db.getRowCount();
-//        int j=db1.getRowCount();
-//        if(i==1)
-//        {
-//            Intent upanel = new Intent(getApplicationContext(), BuyerRegistered.class);
-//            upanel.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//            startActivity(upanel);
-//        }
-//        else if(j==1)
-//        {
-//            Intent upanel = new Intent(getApplicationContext(), BusinessOwnerRegistered.class);
-//            upanel.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//            startActivity(upanel);
-//        }
     }
 
-    public void getUserType()
-    {
-        int var=usertype.getCheckedRadioButtonId();
-        RadioButton rb1=(RadioButton)findViewById(var);
-        usertypeselected=rb1.getText().toString();
-    }
 
-    private class NetCheck extends AsyncTask<String,String,Boolean>
-    {
+    private class NetCheck extends AsyncTask<String, String, Boolean> {
         private ProgressDialog nDialog;
 
         @Override
-        protected void onPreExecute(){
+        protected void onPreExecute() {
             super.onPreExecute();
             nDialog = new ProgressDialog(LoginActivity.this);
             nDialog.setTitle("Checking Network");
-            nDialog.setMessage("Loading..");
+            nDialog.setMessage("Loading...");
             nDialog.setIndeterminate(false);
             nDialog.setCancelable(true);
             nDialog.show();
         }
+
         /**
          * Gets current device state and checks for working internet connection by trying Google.
-         **/
+         */
         @Override
-        protected Boolean doInBackground(String... args){
+        protected Boolean doInBackground(String... args) {
 
             ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo netInfo = cm.getActiveNetworkInfo();
@@ -160,9 +123,6 @@ public class LoginActivity extends AppCompatActivity {
                     if (urlc.getResponseCode() == 200) {
                         return true;
                     }
-                } catch (MalformedURLException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -171,14 +131,14 @@ public class LoginActivity extends AppCompatActivity {
             return false;
 
         }
-        @Override
-        protected void onPostExecute(Boolean th){
 
-            if(th == true){
+        @Override
+        protected void onPostExecute(Boolean th) {
+
+            if (th) {
                 nDialog.dismiss();
                 new ProcessLogin().execute();
-            }
-            else{
+            } else {
                 nDialog.dismiss();
                 new AlertDialog.Builder(LoginActivity.this)
                         .setTitle("Error")
@@ -193,15 +153,12 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Async Task to get and send data to My Sql database through JSON respone.
-     **/
-    private class ProcessLogin extends AsyncTask<String, String, JSONObject> {
+    private class ProcessLogin extends AsyncTask<String, String, Integer> {
 
 
         private ProgressDialog pDialog;
 
-        String email,userpassword;
+        String email, userpassword;
 
         @Override
         protected void onPreExecute() {
@@ -218,68 +175,52 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         @Override
-        protected JSONObject doInBackground(String... args) {
+        protected Integer doInBackground(String... args)
+        {
 
-            UserFunctions userFunction = new UserFunctions();
-                JSONObject json = userFunction.loginUserbiz(email, userpassword);
-                return json;
-
+            try {
+                ParseUser.logIn(email,userpassword);
+                i=0;
+            } catch (ParseException e) {
+                e.printStackTrace();
+                i=e.getCode();
+            }
+            return i;
         }
 
         @Override
-        protected void onPostExecute(JSONObject json) {
-            try {
-                if (json.getString(KEY_SUCCESS) != null) {
+        protected void onPostExecute(Integer i) {
 
-                    String res = json.getString(KEY_SUCCESS);
-
-                    if(Integer.parseInt(res) == 1){
-                        pDialog.setMessage("Loading User Space");
-                        pDialog.setTitle("Getting Data");
-
-                        JSONObject json_user = json.getJSONObject("user");
-                        /**
-                         * Clear all previous data in SQlite database.
-                         **/
-//                        UserFunctions logout = new UserFunctions();
-//                        logout.logoutUser(getApplicationContext());
-
-                        /**
-                         *If JSON array details are stored in SQlite it launches the User Panel.
-                         **/
-                        Intent upanel;
-                            DatabaseHandlerBusinessowner db = new DatabaseHandlerBusinessowner(getApplicationContext());
-                            db.adduser(json_user.getString(KEY_UTYPE), json_user.getString(KEY_bname), json_user.getString(KEY_bemail), json_user.getString(KEY_baddr1), json_user.getString(KEY_baddr2), json_user.getString(KEY_baddr3), json_user.getString(KEY_bcountry), json_user.getString(KEY_bpostcode), json_user.getString(KEY_UID), json_user.getString(KEY_CREATED_AT));
-                            upanel = new Intent(getApplicationContext(), BuyerRegistered.class);
-                            upanel.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        pDialog.dismiss();
-                        startActivity(upanel);
-                        /**
-                         * Close Login Screen
-                         **/
-                        finish();
-                    }
-                    else
+            if(i==0)
+            {
+                user=ParseUser.getCurrentUser();
+                if(user!=null)
+                {
+                    String s=user.getString("utype");
+                    Intent i1;
+                    if(s.equals("Buyer"))
                     {
-
-                        pDialog.dismiss();
-                        new AlertDialog.Builder(LoginActivity.this)
-                                .setTitle("Error")
-                                .setMessage("Incorrect Username or Password")
-                                .setNegativeButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                    }
-                                })
-                                .setIcon(android.R.drawable.ic_dialog_info)
-                                .show();
+                        i1=new Intent(getApplicationContext(),BuyerRegistered.class);
+                        startActivity(i1);
                     }
+                    else if(s.equals("Businessowner"))
+                    {
+                        i1=new Intent(getApplicationContext(),BusinessOwnerRegistered.class);
+                        startActivity(i1);
+                    }
+                    finish();
+
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
+            else
+            {
+                Toast.makeText(getApplicationContext(),"Error code: "+i,Toast.LENGTH_LONG).show();
+            }
+
         }
     }
-    public void NetAsync(View view){
+
+    public void NetAsync(View view) {
         new NetCheck().execute();
     }
 

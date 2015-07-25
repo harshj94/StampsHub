@@ -47,30 +47,7 @@
             android:layout_height="wrap_content"
             android:padding="10dip"
             android:layout_below="@id/header">
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#372c24"
-                android:text="User Type"/>
-            <RadioGroup
-                android:id="@+id/usertype"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Buyer"
-                    style="@style/RadioButtonAppTheme"
-                    android:textColor="#000000"
-                    android:id="@+id/buyer" />
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Business Owner"
-                    style="@style/RadioButtonAppTheme"
-                    android:textColor="#000000"
-                    android:id="@+id/businessownerr" />
-            </RadioGroup>
+
             <!--  Email Label -->
             <TextView
                 android:layout_width="fill_parent"

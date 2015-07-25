@@ -1,28 +1,30 @@
 package stampshub.app.stampshub;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.HashMap;
-
-import stampshub.app.stampshub.Library.DatabaseHandlerBusinessowner;
+import com.parse.ParseUser;
 
 /**
  * Created by user on 13/07/2015.
  */
 public class BusinessOwnerRegistered extends AppCompatActivity {
 
+    ParseUser currentUser;
+    Button btnlogout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_owner_registered);
 
-        DatabaseHandlerBusinessowner db = new DatabaseHandlerBusinessowner(getApplicationContext());
+        btnlogout=(Button)findViewById(R.id.login);
 
-        HashMap<String, String> user = new HashMap<String, String>();
-        user = db.getUserDetails();
+        currentUser=ParseUser.getCurrentUser();
 
         final TextView utype = (TextView) findViewById(R.id.textView4);
         final TextView bname = (TextView) findViewById(R.id.textView6);
@@ -33,13 +35,17 @@ public class BusinessOwnerRegistered extends AppCompatActivity {
         final TextView country = (TextView) findViewById(R.id.textView16);
         final TextView postcode = (TextView) findViewById(R.id.textView18);
 
-        utype.setText(user.get("utype"));
-        bname.setText(user.get("business_name"));
-        email.setText(user.get("email_id"));
-        address1.setText(user.get("address1"));
-        address2.setText(user.get("address2"));
-        address3.setText(user.get("address3"));
-        country.setText(user.get("country"));
-        postcode.setText(user.get("postcode"));
+        utype.setText(currentUser.getString("utype"));
+
+        btnlogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentUser.logOut();
+                Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(i);
+                finish();
+            }
+        });
+
     }
 }

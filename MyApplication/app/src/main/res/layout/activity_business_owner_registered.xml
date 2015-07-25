@@ -235,7 +235,7 @@
                     android:id="@+id/login"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Back to Login"
+                    android:text="Logout"
                     style="@style/ButtonAppTheme"
                     android:layout_below="@id/textView18"
                     android:textColor="#000000"

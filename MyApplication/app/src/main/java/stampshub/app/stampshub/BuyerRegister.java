@@ -21,10 +21,10 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.parse.ParseUser;
-import com.parse.SignUpCallback;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -45,12 +45,13 @@ public class BuyerRegister extends AppCompatActivity {
     SimpleDateFormat dateFormatter;
     TextView dateofbirth_disp;
     ParseUser buyer;
-    int i;
+    Integer i;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buyer_register);
+        buyer=null;
 
         fname=(EditText)findViewById(R.id.reg_firstname);
         lname=(EditText)findViewById(R.id.reg_lastname);
@@ -201,6 +202,7 @@ public class BuyerRegister extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
+
             super.onPreExecute();
 
             utype="Buyer";
@@ -225,66 +227,43 @@ public class BuyerRegister extends AppCompatActivity {
         @Override
         protected Integer doInBackground(String... args) {
             buyer=new ParseUser();
-            buyer.put("utype",utype);
-            buyer.put("first_business_name",first_name);
-            buyer.put("last_name_address1", last_name);
-            buyer.setEmail(email_id);
-            buyer.put("user_gender_country", user_gender);
-            buyer.put("phone_number_postcode",phone_number);
-            buyer.put("date_of_birth_address2",date_of_birth);
-            buyer.put("security_question",security_question);
-            buyer.put("security_answer", security_answer);
-            buyer.setPassword(user_password);
 
             buyer.setUsername(email_id);
+            buyer.setEmail(email_id);
+            buyer.setPassword(user_password);
 
-            buyer.signUpInBackground(new SignUpCallback() {
-                public void done(ParseException e) {
-                    if (e == null) {
-                        // Hooray! Let them use the app now.
-                        i=-111;
-                    }
-                    else
-                    {
-                        // Sign up didn't succeed. Look at the ParseException
-                        // to figure out what went wrong
-                        i=e.getCode();
-                    }
-                }
-            });
+            buyer.put("utype",utype);
+            buyer.put("firstname_biz",first_name);
+            buyer.put("lastname_add1", last_name);
+            buyer.put("gender_country", user_gender);
+            buyer.put("phn_postcode",phone_number);
+            buyer.put("dob_add2",date_of_birth);
+            buyer.put("sec_ques",security_question);
+            buyer.put("sec_ans", security_answer);
+
+            try {
+                buyer.signUp();
+                i=0;
+            } catch (ParseException e) {
+                i=e.getCode();
+                e.printStackTrace();
+            }
             return i;
         }
 
         @Override
         protected void onPostExecute(Integer i){
 
-            pDialog.cancel();
-            if(i!=0)
+            pDialog.dismiss();
+            if(i==0)
             {
-                new AlertDialog.Builder(BuyerRegister.this)
-                        .setTitle("Error")
-                        .setMessage("Error in registration"+i)
-                        .setNegativeButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        })
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .show();
-            }
-            else
-            {
-                new AlertDialog.Builder(BuyerRegister.this)
-                        .setTitle("Success")
-                        .setMessage("You are succesfully registered.")
-                        .setNegativeButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        })
-                        .setIcon(android.R.drawable.ic_dialog_info)
-                        .show();
                 Intent i1=new Intent(getApplicationContext(),BuyerRegistered.class);
                 startActivity(i1);
                 finish();
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(),"Error code: "+i,Toast.LENGTH_LONG).show();
             }
 
         }

@@ -16,17 +16,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
-import com.parse.SignUpCallback;
-
-import org.json.JSONException;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 
@@ -36,8 +32,7 @@ public class BusinessOwnerRegister extends AppCompatActivity {
     String secques_temp;
     Button registerbizowner;
     ParseUser buyer;
-    int i;
-
+    Integer i;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +88,7 @@ public class BusinessOwnerRegister extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             nDialog = new ProgressDialog(BusinessOwnerRegister.this);
-            nDialog.setMessage("Loading..");
+            nDialog.setMessage("Loading...");
             nDialog.setTitle("Checking Network");
             nDialog.setIndeterminate(false);
             nDialog.setCancelable(true);
@@ -116,9 +111,6 @@ public class BusinessOwnerRegister extends AppCompatActivity {
                     if (urlc.getResponseCode() == 200) {
                         return true;
                     }
-                } catch (MalformedURLException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -131,7 +123,7 @@ public class BusinessOwnerRegister extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean th) {
 
-            if (th == true) {
+            if (th) {
                 nDialog.dismiss();
                 new ProcessRegister().execute();
             } else {
@@ -156,7 +148,7 @@ public class BusinessOwnerRegister extends AppCompatActivity {
          */
         private ProgressDialog pDialog;
 
-        String utype, business_name, email_id, address1, address2, address3, country, postcode, security_question, security_answer, password;
+        String utype, business_name, email_id, address1, address2, country, postcode, security_question, security_answer, password;
 
         @Override
         protected void onPreExecute() {
@@ -184,65 +176,43 @@ public class BusinessOwnerRegister extends AppCompatActivity {
         @Override
         protected Integer doInBackground(String... args) {
 
-            buyer = new ParseUser();
-            buyer.put("utype", utype);
-            buyer.put("first_business_name", business_name);
-            buyer.put("last_name_address1", address1);
-            buyer.setEmail(email_id);
-            buyer.put("user_gender_country", country);
-            buyer.put("phone_number_postcode", postcode);
-            buyer.put("date_of_birth_address2", address2);
-            buyer.put("security_question", security_question);
-            buyer.put("security_answer", security_answer);
-            buyer.setPassword(password);
+            buyer=new ParseUser();
 
             buyer.setUsername(email_id);
+            buyer.setEmail(email_id);
+            buyer.setPassword(password);
 
-            buyer.signUpInBackground(new SignUpCallback() {
-                public void done(ParseException e) {
-                    if (e == null) {
-                        // Hooray! Let them use the app now.
-                        i = -111;
-                    } else {
-                        // Sign up didn't succeed. Look at the ParseException
-                        // to figure out what went wrong
-                        i = e.getCode();
-                    }
-                }
-            });
+            buyer.put("utype", utype);
+            buyer.put("firstname_biz",business_name);
+            buyer.put("lastname_add1", address1);
+            buyer.put("gender_country", country);
+            buyer.put("phn_postcode",postcode);
+            buyer.put("dob_add2",address2);
+            buyer.put("sec_ques", security_question);
+            buyer.put("sec_ans", security_answer);
+
+            try {
+                buyer.signUp();
+                i=0;
+            } catch (ParseException e) {
+                i=e.getCode();
+                e.printStackTrace();
+            }
             return i;
-
         }
 
         @Override
         protected void onPostExecute(Integer i) {
-            /**
-             * Checks for success message.
-             **/
-            pDialog.cancel();
-            if (i != 0) {
-                new AlertDialog.Builder(BusinessOwnerRegister.this)
-                        .setTitle("Error")
-                        .setMessage("Error in registration" + i)
-                        .setNegativeButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        })
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .show();
-            } else {
-                new AlertDialog.Builder(BusinessOwnerRegister.this)
-                        .setTitle("Success")
-                        .setMessage("You are succesfully registered.")
-                        .setNegativeButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        })
-                        .setIcon(android.R.drawable.ic_dialog_info)
-                        .show();
-                Intent i1 = new Intent(getApplicationContext(), BusinessOwnerRegistered.class);
+            pDialog.dismiss();
+            if(i==0)
+            {
+                Intent i1=new Intent(getApplicationContext(),BusinessOwnerRegistered.class);
                 startActivity(i1);
                 finish();
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(), "Error code: " + i, Toast.LENGTH_LONG).show();
             }
         }
     }

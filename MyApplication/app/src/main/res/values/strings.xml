@@ -4,16 +4,16 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string-array name="security_question">
-        <item>Name of the city where your first job was located.</item>
-        <item>Name of your best friend at school.</item>
-        <item>Name of city where you were born.</item>
-        <item>Name of your favorite brand.</item>
-        <item>Name of your favorite food.</item>
+        <item>City of your first job</item>
+        <item>Your best friend at school.</item>
+        <item>City where you were born.</item>
+        <item>Your favorite brand.</item>
+        <item>Your favorite food.</item>
     </string-array>
-    <string name="title_activity_select_user_type">SelectUserType</string>
-    <string name="title_activity_buyer_register">BuyerRegister</string>
-    <string name="title_activity_business_owner_register">BusinessOwnerRegister</string>
-    <string name="title_activity_buyer_registered">BuyerRegistered</string>
-    <string name="title_activity_forgot_password">ForgotPassword</string>
-    <string name="title_activity_business_owner_registered">BusinessOwnerRegistered</string>
+    <string name="title_activity_select_user_type">Select User Type</string>
+    <string name="title_activity_buyer_register">Buyer Register</string>
+    <string name="title_activity_business_owner_register">Business Owner Register</string>
+    <string name="title_activity_buyer_registered">Buyer Registered</string>
+    <string name="title_activity_forgot_password">Forgot Password</string>
+    <string name="title_activity_business_owner_registered">Business Owner Registered</string>
 </resources>
