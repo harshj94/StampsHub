@@ -22,7 +22,7 @@
             <ImageView android:src="@mipmap/logo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dip"/>
+                android:layout_marginLeft="10dip" />
             <!-- Logo Ends -->
         </LinearLayout>
         <!--  Header Ends -->
@@ -46,46 +46,35 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dip"
-            android:layout_below="@id/header">
-
+            android:layout_below="@id/header"
+            android:id="@+id/linearLayout">
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#372c24"
-                android:text="Email Id"/>
-
+                android:text="Enter Offer"/>
             <EditText
-                android:id="@+id/emailid"
-                android:drawableBottom="#000000"
-                style="@style/EditTextAppTheme"
                 android:textColor="#000000"
-                android:hint="Enter your registered email id"
+                android:id="@+id/offertitle"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dip"
-                android:layout_marginBottom="20dip"
-                android:singleLine="true" />
-
+                style="@style/EditTextAppTheme"
+                android:singleLine="true"
+                android:layout_marginBottom="20dip"/>
             <Button
-                android:id="@+id/btnLogin"
+                android:id="@+id/offerSend"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dip"
                 style="@style/ButtonAppTheme"
-                android:text="Reset Password"/>
-            <TextView
-                android:onClick="register"
-                android:id="@+id/link_to_login"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dip"
-                android:layout_marginBottom="40dip"
-                android:text="Back to Login!"
-                android:gravity="center"
-                android:textSize="20sp"
-                android:textColor="#025f7c"/>
+                android:layout_marginTop="10dip"
+                android:background="@drawable/spinner_gradient"
+                android:text="Send Offer"/>
+
 
         </LinearLayout>
+
+
         <!-- Login Form Ends -->
     </RelativeLayout>
 </ScrollView>

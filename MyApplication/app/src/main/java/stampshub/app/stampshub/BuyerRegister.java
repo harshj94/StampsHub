@@ -43,9 +43,17 @@ public class BuyerRegister extends AppCompatActivity {
     String gendertemp,dateofbirth_temp,secques_temp;
     DatePickerDialog datePickerDialog;
     SimpleDateFormat dateFormatter;
-    TextView dateofbirth_disp;
+    TextView dateofbirth_disp,link_to_login;
     ParseUser buyer;
     Integer i;
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(i);
+        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
+        finish();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +68,7 @@ public class BuyerRegister extends AppCompatActivity {
         securityans=(EditText)findViewById(R.id.reg_securityans);
         password=(EditText)findViewById(R.id.reg_password);
 
+
         gender=(RadioGroup)findViewById(R.id.gender);
 
         securityques=(Spinner)findViewById(R.id.reg_security_question);
@@ -68,7 +77,7 @@ public class BuyerRegister extends AppCompatActivity {
         dateofbirth=(Button)findViewById(R.id.datepicker);
 
         dateofbirth_disp=(TextView)findViewById(R.id.dateshow);
-
+        link_to_login=(TextView)findViewById(R.id.link_to_login);
 
         registerbuyer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,13 +123,26 @@ public class BuyerRegister extends AppCompatActivity {
         securityques.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                secques_temp= parent.getItemAtPosition(position).toString();
+                secques_temp = parent.getItemAtPosition(position).toString();
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 secques_temp = parent.getItemAtPosition(0).toString();
             }
         });
+
+        link_to_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(i);
+                overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
+                finish();
+            }
+        });
+
+
     }
 
     public void getGender()
@@ -200,6 +222,8 @@ public class BuyerRegister extends AppCompatActivity {
 
         String utype, first_name, last_name, email_id, user_gender,phone_number, date_of_birth, security_question,security_answer,user_password;
 
+
+
         @Override
         protected void onPreExecute() {
 
@@ -259,6 +283,7 @@ public class BuyerRegister extends AppCompatActivity {
             {
                 Intent i1=new Intent(getApplicationContext(),BuyerRegistered.class);
                 startActivity(i1);
+                overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
                 finish();
             }
             else

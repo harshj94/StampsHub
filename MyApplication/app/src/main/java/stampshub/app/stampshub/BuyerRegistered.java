@@ -32,9 +32,15 @@ public class BuyerRegistered extends AppCompatActivity {
         final TextView gender = (TextView) findViewById(R.id.textView12);
         final TextView phnnum = (TextView) findViewById(R.id.textView14);
         final TextView dob = (TextView) findViewById(R.id.textView16);
-        final TextView created_at = (TextView) findViewById(R.id.textView18);
 
         utype.setText(currentUser.getString("utype"));
+        fname.setText(currentUser.getString("utype"));
+        lname.setText(currentUser.getString("utype"));
+        email.setText(currentUser.getEmail());
+        gender.setText(currentUser.getString("utype"));
+        phnnum.setText(currentUser.getString("utype"));
+        dob.setText(currentUser.getString("utype"));
+
 
         btnlogout.setOnClickListener(new View.OnClickListener() {
             @Override

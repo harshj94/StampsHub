@@ -1,12 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="stampshub.app.stampshub" >
+    package="stampshub.app.stampshub"
+    android:installLocation="auto" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="18" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="18" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+    <!--
+      IMPORTANT: Change "com.parse.starter.permission.C2D_MESSAGE" in the lines below
+      to match your app's package name + ".permission.C2D_MESSAGE".
+    -->
+    <permission
+        android:name="stampshub.app.stampshub.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="stampshub.app.stampshub.permission.C2D_MESSAGE" />
 
     <application
         android:name=".ParseApplication"
@@ -20,9 +40,11 @@
         <meta-data
             android:name="com.parse.CLIENT_KEY"
             android:value="BZxjWEwJogpEgnfxp6LWGIzwQYrBFzKtbszbTBM5" />
+
         <activity
             android:name=".LoginActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateHidden|adjustResize" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,27 +53,71 @@
         </activity>
         <activity
             android:name=".SelectUserType"
-            android:label="@string/title_activity_select_user_type" >
+            android:label="@string/title_activity_select_user_type"
+            android:windowSoftInputMode="stateHidden|adjustResize" >
         </activity>
         <activity
             android:name=".BuyerRegister"
-            android:label="@string/title_activity_buyer_register" >
+            android:label="@string/title_activity_buyer_register"
+            android:windowSoftInputMode="stateHidden|adjustResize" >
         </activity>
         <activity
             android:name=".BusinessOwnerRegister"
-            android:label="@string/title_activity_business_owner_register" >
+            android:label="@string/title_activity_business_owner_register"
+            android:windowSoftInputMode="stateHidden|adjustResize" >
         </activity>
         <activity
             android:name=".BuyerRegistered"
-            android:label="@string/title_activity_buyer_registered" >
+            android:label="@string/title_activity_buyer_registered"
+            android:windowSoftInputMode="stateHidden|adjustResize" >
         </activity>
         <activity
             android:name=".ForgotPassword"
-            android:label="@string/title_activity_forgot_password" >
+            android:label="@string/title_activity_forgot_password"
+            android:windowSoftInputMode="stateHidden|adjustResize" >
         </activity>
         <activity
             android:name=".BusinessOwnerRegistered"
-            android:label="@string/title_activity_business_owner_registered" >
+            android:label="@string/title_activity_business_owner_registered"
+            android:windowSoftInputMode="stateHidden|adjustResize" >
+        </activity>
+
+        <service android:name="com.parse.PushService" />
+
+        <receiver android:name="com.parse.ParseBroadcastReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".ParseReceive"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.parse.push.intent.RECEIVE" />
+                <action android:name="com.parse.push.intent.DELETE" />
+                <action android:name="com.parse.push.intent.OPEN" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.parse.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <!-- IMPORTANT: Change "com.parse.starter" to match your app's package name. -->
+                <category android:name="stampshub.app.stampshub" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".BuyerDashboard"
+            android:label="@string/title_activity_buyer_dashboard" >
+        </activity>
+        <activity
+            android:name=".BusinessOwnerDashboard"
+            android:label="@string/title_activity_business_owner_dashboard" >
         </activity>
     </application>
 

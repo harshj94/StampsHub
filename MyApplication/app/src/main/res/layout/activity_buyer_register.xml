@@ -137,6 +137,7 @@
                 android:id="@+id/datepicker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/spinner_gradient"
                 style="@style/ButtonAppTheme"
                 android:text="Click Here to select your Date of Birth"
                 />
@@ -159,7 +160,7 @@
                 android:layout_width="fill_parent"
                 android:layout_marginTop="5dip"
                 android:popupBackground="@drawable/header_gradient"
-                android:background="@drawable/header_gradient"
+                android:background="@drawable/spinner_gradient"
                 android:layout_marginBottom="20dip"
                 android:layout_height="wrap_content"
                 style="@style/SpinnerAppTheme"/>
@@ -208,6 +209,7 @@
                 android:layout_height="wrap_content"
                 style="@style/ButtonAppTheme"
                 android:layout_marginTop="10dip"
+                android:background="@drawable/spinner_gradient"
                 android:text="Register New Account"/>
             <!-- Link to Login Screen -->
             <TextView

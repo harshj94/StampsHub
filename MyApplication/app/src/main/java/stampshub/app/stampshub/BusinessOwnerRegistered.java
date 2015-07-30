@@ -9,9 +9,6 @@ import android.widget.TextView;
 
 import com.parse.ParseUser;
 
-/**
- * Created by user on 13/07/2015.
- */
 public class BusinessOwnerRegistered extends AppCompatActivity {
 
     ParseUser currentUser;
@@ -31,11 +28,16 @@ public class BusinessOwnerRegistered extends AppCompatActivity {
         final TextView email = (TextView) findViewById(R.id.textView8);
         final TextView address1 = (TextView) findViewById(R.id.textView10);
         final TextView address2 = (TextView) findViewById(R.id.textView12);
-        final TextView address3 = (TextView) findViewById(R.id.textView14);
-        final TextView country = (TextView) findViewById(R.id.textView16);
-        final TextView postcode = (TextView) findViewById(R.id.textView18);
+        final TextView country = (TextView) findViewById(R.id.textView14);
+        final TextView postcode = (TextView) findViewById(R.id.textView16);
 
         utype.setText(currentUser.getString("utype"));
+        bname.setText(currentUser.getString("utype"));
+        email.setText(currentUser.getEmail());
+        address1.setText(currentUser.getString("utype"));
+        address2.setText(currentUser.getString("utype"));
+        country.setText(currentUser.getString("utype"));
+        postcode.setText(currentUser.getString("utype"));
 
         btnlogout.setOnClickListener(new View.OnClickListener() {
             @Override

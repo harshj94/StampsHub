@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 
 import java.io.IOException;
@@ -31,6 +32,8 @@ public class LoginActivity extends AppCompatActivity {
     Button login;
     ParseUser user;
     Integer i;
+    ParseInstallation installation;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,19 +44,30 @@ public class LoginActivity extends AppCompatActivity {
         user=ParseUser.getCurrentUser();
         if(user.getObjectId()!=null)
         {
+            installation = ParseInstallation.getCurrentInstallation();
+            installation.put("user",ParseUser.getCurrentUser());
+            installation.put("utype",user.getString("utype"));
+            try {
+                installation.save();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             String s=user.getString("utype");
             Intent i;
             if(s.equals("Buyer"))
             {
-                i=new Intent(getApplicationContext(),BuyerRegistered.class);
+                i=new Intent(getApplicationContext(),BuyerDashboard.class);
                 startActivity(i);
+                overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
+                finish();
             }
             else if(s.equals("Businessowner"))
             {
-                i=new Intent(getApplicationContext(),BusinessOwnerRegistered.class);
+                i=new Intent(getApplicationContext(),BusinessOwnerDashboard.class);
                 startActivity(i);
+                overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
+                finish();
             }
-            finish();
         }
 
         linktoregister = (TextView) findViewById(R.id.link_to_register);
@@ -70,6 +84,7 @@ public class LoginActivity extends AppCompatActivity {
                 Intent i = new Intent(getApplicationContext(), SelectUserType.class);
                 startActivity(i);
                 overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
+                finish();
             }
         });
 
@@ -79,6 +94,7 @@ public class LoginActivity extends AppCompatActivity {
                 Intent i = new Intent(getApplicationContext(), ForgotPassword.class);
                 startActivity(i);
                 overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
+                finish();
             }
         });
 
@@ -88,7 +104,6 @@ public class LoginActivity extends AppCompatActivity {
                 NetAsync(v);
             }
         });
-
     }
 
 
@@ -190,23 +205,35 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Integer i) {
-
+            pDialog.dismiss();
             if(i==0)
             {
                 user=ParseUser.getCurrentUser();
                 if(user!=null)
                 {
+                    installation = ParseInstallation.getCurrentInstallation();
+                    installation.put("user",ParseUser.getCurrentUser());
+                    installation.put("utype",user.getString("utype"));
+                    try {
+                        installation.save();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                     String s=user.getString("utype");
                     Intent i1;
                     if(s.equals("Buyer"))
                     {
-                        i1=new Intent(getApplicationContext(),BuyerRegistered.class);
+                        i1=new Intent(getApplicationContext(),BuyerDashboard.class);
                         startActivity(i1);
+                        overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
+                        finish();
                     }
                     else if(s.equals("Businessowner"))
                     {
-                        i1=new Intent(getApplicationContext(),BusinessOwnerRegistered.class);
+                        i1=new Intent(getApplicationContext(),BusinessOwnerDashboard.class);
                         startActivity(i1);
+                        overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
+                        finish();
                     }
                     finish();
 

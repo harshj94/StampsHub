@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.ParseException;
@@ -32,10 +33,20 @@ public class BusinessOwnerRegister extends AppCompatActivity {
     String secques_temp;
     Button registerbizowner;
     ParseUser buyer;
+    TextView link_to_login;
     Integer i;
 
     @Override
+    public void onBackPressed() {
+        Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(i);
+        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
+        finish();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_owner_register);
@@ -52,6 +63,8 @@ public class BusinessOwnerRegister extends AppCompatActivity {
         Business_sequestion = (Spinner) findViewById(R.id.reg_security_question);
 
         registerbizowner = (Button) findViewById(R.id.btnRegister);
+
+        link_to_login=(TextView)findViewById(R.id.link_to_login);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.security_question, android.R.layout.simple_spinner_item);
 
@@ -75,6 +88,16 @@ public class BusinessOwnerRegister extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 NetAsync(v);
+            }
+        });
+
+        link_to_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(i);
+                overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
+                finish();
             }
         });
 
@@ -208,6 +231,7 @@ public class BusinessOwnerRegister extends AppCompatActivity {
             {
                 Intent i1=new Intent(getApplicationContext(),BusinessOwnerRegistered.class);
                 startActivity(i1);
+                overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
                 finish();
             }
             else

@@ -1,10 +1,10 @@
 <resources>
-    <string name="app_name">StampsHub</string>
+    <string name="app_name">Stamps Hub</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string-array name="security_question">
-        <item>City of your first job</item>
+        <item>City of your first job.</item>
         <item>Your best friend at school.</item>
         <item>City where you were born.</item>
         <item>Your favorite brand.</item>
@@ -16,4 +16,6 @@
     <string name="title_activity_buyer_registered">Buyer Registered</string>
     <string name="title_activity_forgot_password">Forgot Password</string>
     <string name="title_activity_business_owner_registered">Business Owner Registered</string>
+    <string name="title_activity_buyer_dashboard">Buyer Dashboard</string>
+    <string name="title_activity_business_owner_dashboard">Business Owner Dashboard</string>
 </resources>
