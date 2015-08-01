@@ -18,4 +18,9 @@
     <string name="title_activity_business_owner_registered">Business Owner Registered</string>
     <string name="title_activity_buyer_dashboard">Buyer Dashboard</string>
     <string name="title_activity_business_owner_dashboard">Business Owner Dashboard</string>
+    <string name="title_activity_buyer__dashboard">Buyer_Dashboard</string>
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
 </resources>
