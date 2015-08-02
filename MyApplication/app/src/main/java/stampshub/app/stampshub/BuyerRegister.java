@@ -12,14 +12,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,11 +33,10 @@ import java.util.Locale;
 
 public class BuyerRegister extends AppCompatActivity {
 
-    EditText fname, lname, email, phonenumber,securityans, password;
+    EditText fname, lname, email, phonenumber, password;
     RadioGroup gender;
-    Spinner securityques;
     Button dateofbirth,registerbuyer;
-    String gendertemp,dateofbirth_temp,secques_temp;
+    String gendertemp,dateofbirth_temp;
     DatePickerDialog datePickerDialog;
     SimpleDateFormat dateFormatter;
     TextView dateofbirth_disp,link_to_login;
@@ -59,19 +55,22 @@ public class BuyerRegister extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buyer_register);
+
+        android.support.v7.app.ActionBar ab=getSupportActionBar();
+        ab.setLogo(R.mipmap.logo);
+        ab.setDisplayUseLogoEnabled(true);
+        ab.setDisplayShowHomeEnabled(true);
+
         buyer=null;
 
         fname=(EditText)findViewById(R.id.reg_firstname);
         lname=(EditText)findViewById(R.id.reg_lastname);
         email=(EditText)findViewById(R.id.reg_email);
         phonenumber=(EditText)findViewById(R.id.reg_phnnum);
-        securityans=(EditText)findViewById(R.id.reg_securityans);
         password=(EditText)findViewById(R.id.reg_password);
 
 
         gender=(RadioGroup)findViewById(R.id.gender);
-
-        securityques=(Spinner)findViewById(R.id.reg_security_question);
 
         registerbuyer=(Button)findViewById(R.id.btnRegister);
         dateofbirth=(Button)findViewById(R.id.datepicker);
@@ -114,23 +113,7 @@ public class BuyerRegister extends AppCompatActivity {
             }
         });
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.security_question, android.R.layout.simple_spinner_item);
 
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        securityques.setAdapter(adapter);
-
-        securityques.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                secques_temp = parent.getItemAtPosition(position).toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                secques_temp = parent.getItemAtPosition(0).toString();
-            }
-        });
 
         link_to_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -220,7 +203,7 @@ public class BuyerRegister extends AppCompatActivity {
          */
         private ProgressDialog pDialog;
 
-        String utype, first_name, last_name, email_id, user_gender,phone_number, date_of_birth, security_question,security_answer,user_password;
+        String utype, first_name, last_name, email_id, user_gender,phone_number, date_of_birth,user_password;
 
 
 
@@ -236,8 +219,6 @@ public class BuyerRegister extends AppCompatActivity {
             user_gender=gendertemp;
             phone_number=phonenumber.getText().toString();
             date_of_birth=dateofbirth_temp;
-            security_question=secques_temp;
-            security_answer=securityans.getText().toString();
             user_password=password.getText().toString();
 
             pDialog = new ProgressDialog(BuyerRegister.this);
@@ -262,8 +243,6 @@ public class BuyerRegister extends AppCompatActivity {
             buyer.put("gender_country", user_gender);
             buyer.put("phn_postcode",phone_number);
             buyer.put("dob_add2",date_of_birth);
-            buyer.put("sec_ques",security_question);
-            buyer.put("sec_ans", security_answer);
 
             try {
                 buyer.signUp();

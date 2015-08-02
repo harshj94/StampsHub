@@ -2,9 +2,12 @@ package stampshub.app.stampshub;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewConfiguration;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -13,101 +16,106 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class BuyerDashboard extends AppCompatActivity {
 
-    ParseUser user;
-    ParseObject pushData;
-    ListView listView;
-
-    ArrayList<String> listitems=new ArrayList<>();
-    List<ParseObject> lst;
-    ArrayAdapter<String> adapter;
-    int i;
+    ViewPager vp;
+    TabPageAdapter tpa;
+    ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buyer_dashboard);
 
-        user=ParseUser.getCurrentUser();
+        getOverflowMenu();
 
-        listView=(ListView)findViewById(R.id.listView);
+        android.support.v7.app.ActionBar ab = getSupportActionBar();
+        ab.setLogo(R.mipmap.logo);
+        ab.setDisplayUseLogoEnabled(true);
+        ab.setDisplayShowHomeEnabled(true);
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Offer");
-        query.whereNotEqualTo("OfferTitle", "fff");
-        query.setLimit(1000);
-        try
-        {
-            lst=query.find();
-        }
-        catch (ParseException e)
-        {
-            e.printStackTrace();
-        }
-        for(i=0;i<lst.size();i++)
-        {
-            pushData=lst.get(i);
-            listitems.add(pushData.getString("OfferTitle"));
-        }
+        vp = (ViewPager) findViewById(R.id.pager);
+        tpa = new TabPageAdapter(getSupportFragmentManager());
+        vp.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            public void onPageSelected(int i) {
+                actionBar = getSupportActionBar();
+                actionBar.setSelectedNavigationItem(i);
+            }
 
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listitems);
-        listView.setAdapter(adapter);
+
+        });
+        vp.setAdapter(tpa);
+        actionBar = getSupportActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        android.support.v7.app.ActionBar.TabListener tablistener = new android.support.v7.app.ActionBar.TabListener() {
+            @Override
+            public void onTabSelected(android.support.v7.app.ActionBar.Tab tab, android.support.v4.app.FragmentTransaction fragmentTransaction) {
+                if (tab.getText().equals("Offers")) {
+                    vp.setCurrentItem(0);
+                }
+                if (tab.getText().equals("My Offers")) {
+                    vp.setCurrentItem(1);
+                }
+            }
+
+            @Override
+            public void onTabUnselected(android.support.v7.app.ActionBar.Tab tab, android.support.v4.app.FragmentTransaction fragmentTransaction) {
+
+            }
+
+            @Override
+            public void onTabReselected(android.support.v7.app.ActionBar.Tab tab, android.support.v4.app.FragmentTransaction fragmentTransaction) {
+
+            }
+        };
+
+
+        actionBar.addTab(actionBar.newTab().setText("Offers").setTabListener(tablistener));
+        actionBar.addTab(actionBar.newTab().setText("My Offers").setTabListener(tablistener));
 
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.menu_buyer_dashboard, menu);
         return true;
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
-        switch (id)
-        {
-
-            case R.id.refresh:
-                listitems.clear();
-                ParseQuery<ParseObject> query = ParseQuery.getQuery("Offer");
-                query.whereNotEqualTo("OfferTitle", "fff");
-                query.setLimit(1000);
-                try
-                {
-                    lst=query.find();
-                }
-                catch (ParseException e)
-                {
-                    e.printStackTrace();
-                }
-                for(i=0;i<lst.size();i++)
-                {
-                    pushData=lst.get(i);
-                    listitems.add(pushData.getString("OfferTitle"));
-                }
-                adapter.notifyDataSetChanged();
-
-                break;
-
-            case R.id.logout:
-                user.logOut();
-                Intent i = new Intent(getApplicationContext(),LoginActivity.class);
-                startActivity(i);
-                overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
-                finish();
+        if (id == R.id.refresh) {
+            Offers offers = new Offers();
+            offers.populateOffers();
+        } else if (id == R.id.logout) {
+            ParseUser.logOut();
+            Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(i);
+            overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void getOverflowMenu() {
+
+        try {
+            ViewConfiguration config = ViewConfiguration.get(this);
+            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+            if (menuKeyField != null) {
+                menuKeyField.setAccessible(true);
+                menuKeyField.setBoolean(config, false);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

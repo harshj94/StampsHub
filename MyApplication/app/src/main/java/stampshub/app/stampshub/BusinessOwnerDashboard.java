@@ -27,6 +27,11 @@ public class BusinessOwnerDashboard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_owner_dashboard);
 
+        android.support.v7.app.ActionBar ab=getSupportActionBar();
+        ab.setLogo(R.mipmap.logo);
+        ab.setDisplayUseLogoEnabled(true);
+        ab.setDisplayShowHomeEnabled(true);
+
         sendOffer=(Button)findViewById(R.id.offerSend);
         offer_title=(EditText)findViewById(R.id.offertitle);
 

@@ -19,6 +19,11 @@ public class BusinessOwnerRegistered extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_owner_registered);
 
+        android.support.v7.app.ActionBar ab=getSupportActionBar();
+        ab.setLogo(R.mipmap.logo);
+        ab.setDisplayUseLogoEnabled(true);
+        ab.setDisplayShowHomeEnabled(true);
+
         btnlogout=(Button)findViewById(R.id.login);
 
         currentUser=ParseUser.getCurrentUser();

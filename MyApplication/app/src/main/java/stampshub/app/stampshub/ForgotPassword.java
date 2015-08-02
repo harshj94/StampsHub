@@ -32,6 +32,11 @@ public class ForgotPassword extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
 
+        android.support.v7.app.ActionBar ab=getSupportActionBar();
+        ab.setLogo(R.mipmap.logo);
+        ab.setDisplayUseLogoEnabled(true);
+        ab.setDisplayShowHomeEnabled(true);
+
         emailid=(TextView)findViewById(R.id.emailid);
 
         forgot=(Button)findViewById(R.id.btnLogin);

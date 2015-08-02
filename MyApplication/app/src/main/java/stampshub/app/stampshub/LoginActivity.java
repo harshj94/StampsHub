@@ -40,6 +40,11 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        android.support.v7.app.ActionBar ab=getSupportActionBar();
+        ab.setLogo(R.mipmap.logo);
+        ab.setDisplayUseLogoEnabled(true);
+        ab.setDisplayShowHomeEnabled(true);
+
         user=new ParseUser();
         user=ParseUser.getCurrentUser();
         if(user.getObjectId()!=null)

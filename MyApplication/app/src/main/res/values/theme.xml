@@ -2,9 +2,9 @@
 <resources>
     resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="AppTheme" parent="@style/_AppTheme" />
+    <style name="AppTheme" parent="@style/_AppTheme"/>
 
-    <style name="_AppTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
+    <style name="_AppTheme" parent="Base.Theme.AppCompat.Light">
 
         <item name="android:radioButtonStyle">@style/RadioButtonAppTheme</item>
         <item name="android:editTextStyle">@style/EditTextAppTheme</item>
@@ -12,6 +12,62 @@
         <item name="android:imageButtonStyle">@style/ImageButtonAppTheme</item>
         <item name="android:dropDownSpinnerStyle">@style/SpinnerAppTheme</item>
 
+    </style>
+
+    <style name="Theme.Stampshub" parent="@style/Base.Theme.AppCompat.Light">
+        <item name="actionBarItemBackground">@drawable/selectable_background_stampshub</item>
+        <item name="popupMenuStyle">@style/PopupMenu.Stampshub</item>
+        <item name="dropDownListViewStyle">@style/DropDownListView.Stampshub</item>
+        <item name="actionBarTabStyle">@style/ActionBarTabStyle.Stampshub</item>
+        <item name="actionDropDownStyle">@style/DropDownNav.Stampshub</item>
+        <item name="actionBarStyle">@style/ActionBar.Solid.Stampshub</item>
+        <item name="actionModeBackground">@drawable/cab_background_top_stampshub</item>
+        <item name="actionModeSplitBackground">@drawable/cab_background_bottom_stampshub</item>
+        <item name="actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Stampshub</item>
+    </style>
+
+    <style name="ActionBar.Solid.Stampshub" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
+        <item name="background">@drawable/header_gradient</item>
+        <item name="backgroundStacked">@drawable/ab_stacked_solid_stampshub</item>
+        <item name="backgroundSplit">@drawable/ab_bottom_solid_stampshub</item>
+        <item name="progressBarStyle">@style/ProgressBar.Stampshub</item>
+    </style>
+
+    <style name="ActionBar.Transparent.Stampshub" parent="@style/Widget.AppCompat.Light.ActionBar">
+        <item name="background">@drawable/ab_transparent_stampshub</item>
+        <item name="progressBarStyle">@style/ProgressBar.Stampshub</item>
+    </style>
+
+    <style name="PopupMenu.Stampshub" parent="@style/Widget.AppCompat.Light.PopupMenu">
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_stampshub</item>
+    </style>
+
+    <style name="DropDownListView.Stampshub" parent="@style/Widget.AppCompat.Light.ListView.DropDown">
+        <item name="android:listSelector">@drawable/selectable_background_stampshub</item>
+    </style>
+
+    <style name="ActionBarTabStyle.Stampshub" parent="@style/Widget.AppCompat.Light.ActionBar.TabView">
+        <item name="android:background">@drawable/tab_indicator_ab_stampshub</item>
+    </style>
+
+    <style name="DropDownNav.Stampshub" parent="@style/Widget.AppCompat.Light.Spinner.DropDown.ActionBar">
+        <item name="android:background">@drawable/spinner_background_ab_stampshub</item>
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_stampshub</item>
+        <item name="android:dropDownSelector">@drawable/selectable_background_stampshub</item>
+    </style>
+
+    <style name="ProgressBar.Stampshub" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progress_horizontal_stampshub</item>
+    </style>
+
+    <style name="ActionButton.CloseMode.Stampshub" parent="@style/Widget.AppCompat.Light.ActionButton.CloseMode">
+        <item name="android:background">@drawable/btn_cab_done_stampshub</item>
+    </style>
+
+    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
+    <style name="Theme.Stampshub.Widget" parent="@style/Theme.AppCompat">
+        <item name="popupMenuStyle">@style/PopupMenu.Stampshub</item>
+        <item name="dropDownListViewStyle">@style/DropDownListView.Stampshub</item>
     </style>
 
 </resources>

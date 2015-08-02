@@ -28,6 +28,12 @@ public class SelectUserType extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_user_type);
+
+        android.support.v7.app.ActionBar ab=getSupportActionBar();
+        ab.setLogo(R.mipmap.logo);
+        ab.setDisplayUseLogoEnabled(true);
+        ab.setDisplayShowHomeEnabled(true);
+
         openbuyer=(Button)findViewById(R.id.buyer);
         openbusiness=(Button)findViewById(R.id.businessowner);
         backtologin=(TextView)findViewById(R.id.backtologin);

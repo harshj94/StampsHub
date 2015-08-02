@@ -9,25 +9,6 @@
         android:layout_height="wrap_content"
         android:background="#ffffff">
 
-        <!--  Header Starts-->
-        <LinearLayout
-            android:id="@+id/header"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/header_gradient"
-            android:orientation="vertical"
-            android:paddingTop="5dip"
-            android:paddingBottom="5dip">
-            <!-- Logo Start-->
-            <ImageView android:src="@mipmap/logo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dip"/>
-            <!-- Logo Ends -->
-        </LinearLayout>
-        <!--  Header Ends -->
-
-        <!-- Footer Start -->
         <LinearLayout
             android:id="@+id/footer"
             android:layout_width="fill_parent"
@@ -44,8 +25,7 @@
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/header">
+            android:layout_height="wrap_content">
             <RelativeLayout
                 android:paddingLeft="5dp"
                 android:layout_width="wrap_content"

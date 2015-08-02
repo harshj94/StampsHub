@@ -8,23 +8,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
 
-        <!--  Header  Starts-->
-        <LinearLayout
-            android:id="@+id/header"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/header_gradient"
-            android:paddingTop="5dip"
-            android:paddingBottom="5dip">
-            <!-- Logo Start-->
-            <ImageView android:src="@mipmap/logo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dip"/>
-            <!-- Logo Ends -->
-        </LinearLayout>
-        <!--  Header Ends -->
-        <!-- Footer Start -->
         <LinearLayout
             android:id="@+id/footer"
             android:orientation="vertical"
@@ -40,15 +23,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="10dip"
-            android:id="@+id/registerbusiness"
-            android:layout_below="@id/header">
+            android:id="@+id/registerbusiness">
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#372c24"
                 android:text="Business Name"/>
             <EditText
-
                 android:textColor="#000000"
                 android:id="@+id/biz_firstname"
                 android:layout_width="fill_parent"
@@ -126,35 +107,6 @@
                 android:textColor="#000000"
                 android:id="@+id/biz_postcode"
                 android:inputType="number"
-                android:layout_width="fill_parent"
-                style="@style/EditTextAppTheme"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dip"
-                android:singleLine="true"
-                android:layout_marginBottom="20dip"/>
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#372c24"
-                android:text="Security Question"/>
-            <Spinner
-                android:id="@+id/reg_security_question"
-                android:layout_width="fill_parent"
-                android:layout_marginTop="5dip"
-                android:popupBackground="@drawable/header_gradient"
-                android:background="@drawable/header_gradient"
-                android:layout_marginBottom="20dip"
-                android:layout_height="wrap_content"
-                style="@style/SpinnerAppTheme"/>
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#372c24"
-                android:text="Security Answer"/>
-            <EditText
-                android:textColor="#000000"
-                android:id="@+id/reg_securityans"
-                android:inputType="textEmailAddress"
                 android:layout_width="fill_parent"
                 style="@style/EditTextAppTheme"
                 android:layout_height="wrap_content"

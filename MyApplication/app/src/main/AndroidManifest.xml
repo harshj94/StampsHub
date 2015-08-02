@@ -32,8 +32,9 @@
         android:name=".ParseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
+        android:logo="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/Theme.Stampshub" >
         <meta-data
             android:name="com.parse.APPLICATION_ID"
             android:value="6md5fSIFNrcpXc0ZStnJos7SW4Rnrok0Hyu7Uoes" />
@@ -43,6 +44,7 @@
 
         <activity
             android:name=".LoginActivity"
+            android:logo="@mipmap/logo"
             android:label="@string/app_name"
             android:windowSoftInputMode="stateHidden|adjustResize" >
             <intent-filter>

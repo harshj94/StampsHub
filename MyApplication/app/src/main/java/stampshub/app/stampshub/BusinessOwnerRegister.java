@@ -11,11 +11,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,9 +25,7 @@ import java.net.URL;
 
 
 public class BusinessOwnerRegister extends AppCompatActivity {
-    EditText Business_name, Business_email, Business_address1, Business_address2, Business_country, Business_postcode, Business_pass, security_ans;
-    Spinner Business_sequestion;
-    String secques_temp;
+    EditText Business_name, Business_email, Business_address1, Business_address2, Business_country, Business_postcode, Business_pass;
     Button registerbizowner;
     ParseUser buyer;
     TextView link_to_login;
@@ -51,6 +46,11 @@ public class BusinessOwnerRegister extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_owner_register);
 
+        android.support.v7.app.ActionBar ab=getSupportActionBar();
+        ab.setLogo(R.mipmap.logo);
+        ab.setDisplayUseLogoEnabled(true);
+        ab.setDisplayShowHomeEnabled(true);
+
         Business_name = (EditText) findViewById(R.id.biz_firstname);
         Business_email = (EditText) findViewById(R.id.biz_email);
         Business_address1 = (EditText) findViewById(R.id.biz_add1);
@@ -58,31 +58,10 @@ public class BusinessOwnerRegister extends AppCompatActivity {
         Business_country = (EditText) findViewById(R.id.biz_country);
         Business_postcode = (EditText) findViewById(R.id.biz_postcode);
         Business_pass = (EditText) findViewById(R.id.reg_password);
-        security_ans = (EditText) findViewById(R.id.reg_securityans);
-
-        Business_sequestion = (Spinner) findViewById(R.id.reg_security_question);
 
         registerbizowner = (Button) findViewById(R.id.btnRegister);
 
         link_to_login=(TextView)findViewById(R.id.link_to_login);
-
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.security_question, android.R.layout.simple_spinner_item);
-
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        Business_sequestion.setAdapter(adapter);
-
-        Business_sequestion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                secques_temp = parent.getItemAtPosition(position).toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                secques_temp = parent.getItemAtPosition(0).toString();
-            }
-        });
 
         registerbizowner.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,7 +150,7 @@ public class BusinessOwnerRegister extends AppCompatActivity {
          */
         private ProgressDialog pDialog;
 
-        String utype, business_name, email_id, address1, address2, country, postcode, security_question, security_answer, password;
+        String utype, business_name, email_id, address1, address2, country, postcode, password;
 
         @Override
         protected void onPreExecute() {
@@ -184,8 +163,6 @@ public class BusinessOwnerRegister extends AppCompatActivity {
             address2 = Business_address2.getText().toString();
             country = Business_country.getText().toString();
             postcode = Business_postcode.getText().toString();
-            security_question = secques_temp;
-            security_answer = security_ans.getText().toString();
             password = Business_pass.getText().toString();
 
             pDialog = new ProgressDialog(BusinessOwnerRegister.this);
@@ -211,8 +188,6 @@ public class BusinessOwnerRegister extends AppCompatActivity {
             buyer.put("gender_country", country);
             buyer.put("phn_postcode",postcode);
             buyer.put("dob_add2",address2);
-            buyer.put("sec_ques", security_question);
-            buyer.put("sec_ans", security_answer);
 
             try {
                 buyer.signUp();
