@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -14,18 +15,22 @@ import android.widget.Toast;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import java.lang.reflect.Field;
+
 
 public class BusinessOwnerDashboard extends AppCompatActivity {
 
     ParseUser user;
     Button sendOffer;
     EditText offer_title;
-    ParseObject offer=new ParseObject("Offer");;
+    ParseObject offer=new ParseObject("Offer");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business_owner_dashboard);
+
+        getOverflowMenu();
 
         android.support.v7.app.ActionBar ab=getSupportActionBar();
         ab.setLogo(R.mipmap.logo);
@@ -43,6 +48,7 @@ public class BusinessOwnerDashboard extends AppCompatActivity {
             public void onClick(View v) {
 
                 offer.put("OfferTitle",offer_title.getText().toString());
+                offer.put("Biz_name",user.getString("firstname_biz"));
                 offer.put("user", ParseUser.getCurrentUser());
                 offer.saveInBackground();
                 Toast.makeText(getApplicationContext(),"Done",Toast.LENGTH_LONG).show();
@@ -84,5 +90,18 @@ public class BusinessOwnerDashboard extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    private void getOverflowMenu() {
+
+        try {
+            ViewConfiguration config = ViewConfiguration.get(this);
+            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+            if (menuKeyField != null) {
+                menuKeyField.setAccessible(true);
+                menuKeyField.setBoolean(config, false);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

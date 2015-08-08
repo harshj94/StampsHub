@@ -48,7 +48,6 @@
                 android:layout_height="wrap_content"
                 style="@style/ButtonAppTheme"
                 android:layout_marginTop="10dip"
-                android:background="@drawable/spinner_gradient"
                 android:text="Send Offer"/>
 
 

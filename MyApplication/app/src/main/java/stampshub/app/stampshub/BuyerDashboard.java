@@ -90,10 +90,15 @@ public class BuyerDashboard extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.refresh) {
+        if (id == R.id.refresh)
+        {
+
             Offers offers = new Offers();
             offers.populateOffers();
-        } else if (id == R.id.logout) {
+
+        }
+        else if (id == R.id.logout)
+        {
             ParseUser.logOut();
             Intent i = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(i);

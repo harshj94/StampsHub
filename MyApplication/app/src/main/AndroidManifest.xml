@@ -32,8 +32,8 @@
         android:name=".ParseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:logo="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:logo="@mipmap/ic_launcher"
         android:theme="@style/Theme.Stampshub" >
         <meta-data
             android:name="com.parse.APPLICATION_ID"
@@ -44,8 +44,8 @@
 
         <activity
             android:name=".LoginActivity"
-            android:logo="@mipmap/logo"
             android:label="@string/app_name"
+            android:logo="@mipmap/logo"
             android:windowSoftInputMode="stateHidden|adjustResize" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -120,6 +120,10 @@
         <activity
             android:name=".BusinessOwnerDashboard"
             android:label="@string/title_activity_business_owner_dashboard" >
+        </activity>
+        <activity
+            android:name=".OfferDetails"
+            android:label="@string/title_activity_offer_details" >
         </activity>
     </application>
 
