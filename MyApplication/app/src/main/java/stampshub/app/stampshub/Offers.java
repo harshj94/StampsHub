@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -124,40 +123,13 @@ public class Offers extends Fragment {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            //Toast.makeText(mCon, "Finished complex background function!", Toast.LENGTH_LONG).show();
-            // Change the menu back
             BuyerDashboard.setRefreshActionButtonState(false);
         }
     }
 
     public void populateOffers()
     {
-
         new UpdateOffers(getActivity()).execute();
-
-//        items.clear();
-//        user = ParseUser.getCurrentUser();
-//        ParseQuery<ParseObject> query = ParseQuery.getQuery("Offer");
-//        query.whereNotEqualTo("OfferTitle", "fff");
-//        query.orderByDescending("createdAt");
-//        query.setLimit(1000);
-//        try
-//        {
-//            lst = query.find();
-//        }
-//        catch (ParseException e)
-//        {
-//            e.printStackTrace();
-//        }
-//        for (i = 0; i < lst.size(); i++)
-//        {
-//            pushData = lst.get(i);
-//            String offertitle = pushData.getString("OfferTitle");
-//            String biz_name = pushData.getString("Biz_name");
-//            String objectId=pushData.getObjectId();
-//            items.add(new Item(offertitle, biz_name,objectId));
-//        }
-//        adapter.notifyDataSetChanged();
     }
 
 

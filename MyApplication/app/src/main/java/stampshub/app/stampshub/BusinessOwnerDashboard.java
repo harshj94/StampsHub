@@ -33,6 +33,7 @@ public class BusinessOwnerDashboard extends AppCompatActivity {
         getOverflowMenu();
 
         android.support.v7.app.ActionBar ab=getSupportActionBar();
+        assert ab != null;
         ab.setLogo(R.mipmap.logo);
         ab.setDisplayUseLogoEnabled(true);
         ab.setDisplayShowHomeEnabled(true);
@@ -81,7 +82,7 @@ public class BusinessOwnerDashboard extends AppCompatActivity {
                 return true;
 
             case R.id.logout:
-                user.logOut();
+                ParseUser.logOut();
                 Intent i = new Intent(getApplicationContext(),LoginActivity.class);
                 startActivity(i);
                 overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);

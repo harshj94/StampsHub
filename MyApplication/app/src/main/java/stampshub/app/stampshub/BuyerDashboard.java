@@ -1,30 +1,17 @@
 package stampshub.app.stampshub;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewConfiguration;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.Toast;
 
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class BuyerDashboard extends AppCompatActivity {
@@ -41,6 +28,7 @@ public class BuyerDashboard extends AppCompatActivity {
         getOverflowMenu();
 
         android.support.v7.app.ActionBar ab = getSupportActionBar();
+        assert ab != null;
         ab.setLogo(R.mipmap.logo);
         ab.setDisplayUseLogoEnabled(true);
         ab.setDisplayShowHomeEnabled(true);
@@ -57,6 +45,7 @@ public class BuyerDashboard extends AppCompatActivity {
         });
         vp.setAdapter(tpa);
         actionBar = getSupportActionBar();
+        assert actionBar != null;
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         android.support.v7.app.ActionBar.TabListener tablistener = new android.support.v7.app.ActionBar.TabListener() {
             @Override
@@ -89,7 +78,7 @@ public class BuyerDashboard extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        this.optionsMenu=menu;
+        optionsMenu = menu;
         getMenuInflater().inflate(R.menu.menu_buyer_dashboard, menu);
         return true;
     }
@@ -102,8 +91,6 @@ public class BuyerDashboard extends AppCompatActivity {
             setRefreshActionButtonState(true);
             Offers offers=new Offers();
             offers.populateOffers();
-            //setRefreshActionButtonState(false);
-            Toast.makeText(getApplicationContext(),"refresh clicked",Toast.LENGTH_LONG).show();
             return true;
         }
         else if (id == R.id.logout)
