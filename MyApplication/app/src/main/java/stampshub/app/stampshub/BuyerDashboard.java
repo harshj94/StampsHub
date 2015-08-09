@@ -1,15 +1,21 @@
 package stampshub.app.stampshub;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewConfiguration;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -26,7 +32,7 @@ public class BuyerDashboard extends AppCompatActivity {
     ViewPager vp;
     TabPageAdapter tpa;
     ActionBar actionBar;
-
+    private static Menu optionsMenu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +89,7 @@ public class BuyerDashboard extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        this.optionsMenu=menu;
         getMenuInflater().inflate(R.menu.menu_buyer_dashboard, menu);
         return true;
     }
@@ -92,10 +99,12 @@ public class BuyerDashboard extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.refresh)
         {
-
-            Offers offers = new Offers();
+            setRefreshActionButtonState(true);
+            Offers offers=new Offers();
             offers.populateOffers();
-
+            //setRefreshActionButtonState(false);
+            Toast.makeText(getApplicationContext(),"refresh clicked",Toast.LENGTH_LONG).show();
+            return true;
         }
         else if (id == R.id.logout)
         {
@@ -122,5 +131,17 @@ public class BuyerDashboard extends AppCompatActivity {
         }
     }
 
-
+    public static void setRefreshActionButtonState(final boolean refreshing) {
+        if (optionsMenu != null) {
+            final MenuItem refreshItem = optionsMenu
+                    .findItem(R.id.refresh);
+            if (refreshItem != null) {
+                if (refreshing) {
+                    refreshItem.setActionView(R.layout.actionbar_indeterminate_progress);
+                } else {
+                    refreshItem.setActionView(null);
+                }
+            }
+        }
+    }
 }

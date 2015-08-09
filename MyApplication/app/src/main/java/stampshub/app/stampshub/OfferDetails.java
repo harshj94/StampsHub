@@ -1,37 +1,44 @@
 package stampshub.app.stampshub;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 public class OfferDetails extends AppCompatActivity {
+
+    ParseObject offerDetails;
+    TextView tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offer_details);
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_offer_details, menu);
-        return true;
-    }
+        Intent i=getIntent();
+        Bundle b=i.getExtras();
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        tv=(TextView)findViewById(R.id.offertitle);
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        String objectId=b.getString("objectId");
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Offer");
+
+        Toast.makeText(getApplicationContext(),objectId,Toast.LENGTH_LONG).show();
+
+        try
+        {
+            offerDetails=query.get(objectId);
         }
-
-        return super.onOptionsItemSelected(item);
+        catch (ParseException e)
+        {
+            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+        }
+        tv.setText(offerDetails.getString("OfferTitle"));
     }
 }

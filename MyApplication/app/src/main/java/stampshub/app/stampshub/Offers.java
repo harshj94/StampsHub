@@ -1,6 +1,8 @@
 package stampshub.app.stampshub;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -23,7 +26,9 @@ public class Offers extends Fragment {
     public static View offers;
     ParseUser user;
     ParseObject pushData;
+    BuyerDashboard bd= new BuyerDashboard();
     public static ListView listView;
+    String objectId;
 
     public static ArrayList<Item> items = new ArrayList<>();
     List<ParseObject> lst;
@@ -50,7 +55,7 @@ public class Offers extends Fragment {
             pushData = lst.get(i);
             String offertitle = pushData.getString("OfferTitle");
             String biz_name = pushData.getString("Biz_name");
-            String objectId=pushData.getObjectId();
+            objectId=pushData.getObjectId();
             items.add(new Item(offertitle, biz_name,objectId));
 
         }
@@ -62,6 +67,10 @@ public class Offers extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Intent i=new Intent(getActivity(),OfferDetails.class);
+                Item i1=items.get(position);
+                objectId=i1.getObjectId();
+
+                i.putExtra("objectId",objectId);
                 startActivity(i);
 
             }
@@ -69,30 +78,86 @@ public class Offers extends Fragment {
         return offers;
     }
 
-    public void populateOffers() {
-        items.clear();
-        user = ParseUser.getCurrentUser();
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Offer");
-        query.whereNotEqualTo("OfferTitle", "fff");
-        query.orderByDescending("createdAt");
-        query.setLimit(1000);
-        try
+    public class UpdateOffers extends AsyncTask<Void,Void,Void>{
+
+        private Context mCon;
+
+        public UpdateOffers(Context con)
         {
-            lst = query.find();
+            mCon=con;
         }
-        catch (ParseException e)
-        {
-            e.printStackTrace();
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            items.clear();
+            user = ParseUser.getCurrentUser();
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("Offer");
+            query.whereNotEqualTo("OfferTitle", "fff");
+            query.orderByDescending("createdAt");
+            query.setLimit(1000);
+            try
+            {
+                lst = query.find();
+            }
+            catch (ParseException e)
+            {
+                e.printStackTrace();
+            }
+            for (i = 0; i < lst.size(); i++)
+            {
+                pushData = lst.get(i);
+                String offertitle = pushData.getString("OfferTitle");
+                String biz_name = pushData.getString("Biz_name");
+                String objectId=pushData.getObjectId();
+                items.add(new Item(offertitle, biz_name,objectId));
+            }
+
+            bd.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    adapter.notifyDataSetChanged();
+                }
+            });
+            return null;
         }
-        for (i = 0; i < lst.size(); i++)
-        {
-            pushData = lst.get(i);
-            String offertitle = pushData.getString("OfferTitle");
-            String biz_name = pushData.getString("Biz_name");
-            String objectId=pushData.getObjectId();
-            items.add(new Item(offertitle, biz_name,objectId));
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            //Toast.makeText(mCon, "Finished complex background function!", Toast.LENGTH_LONG).show();
+            // Change the menu back
+            BuyerDashboard.setRefreshActionButtonState(false);
         }
-        adapter.notifyDataSetChanged();
+    }
+
+    public void populateOffers()
+    {
+
+        new UpdateOffers(getActivity()).execute();
+
+//        items.clear();
+//        user = ParseUser.getCurrentUser();
+//        ParseQuery<ParseObject> query = ParseQuery.getQuery("Offer");
+//        query.whereNotEqualTo("OfferTitle", "fff");
+//        query.orderByDescending("createdAt");
+//        query.setLimit(1000);
+//        try
+//        {
+//            lst = query.find();
+//        }
+//        catch (ParseException e)
+//        {
+//            e.printStackTrace();
+//        }
+//        for (i = 0; i < lst.size(); i++)
+//        {
+//            pushData = lst.get(i);
+//            String offertitle = pushData.getString("OfferTitle");
+//            String biz_name = pushData.getString("Biz_name");
+//            String objectId=pushData.getObjectId();
+//            items.add(new Item(offertitle, biz_name,objectId));
+//        }
+//        adapter.notifyDataSetChanged();
     }
 
 
