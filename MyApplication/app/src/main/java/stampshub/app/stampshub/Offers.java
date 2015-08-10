@@ -56,7 +56,6 @@ public class Offers extends Fragment {
             String biz_name = pushData.getString("Biz_name");
             objectId=pushData.getObjectId();
             items.add(new Item(offertitle, biz_name,objectId));
-
         }
         adapter = new OffersAdapter(getActivity(), items);
         listView.setAdapter(adapter);
