@@ -1,19 +1,156 @@
 package stampshub.app.stampshub;
 
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class My_Offers extends android.support.v4.app.Fragment {
 
-    View my_offers;
+    View offers;
+    public static ListView listView;
+    String parseUser;
+    BuyerDashboard bd;
+    List<ParseObject> lst;
+    public static ArrayList<Item> items = new ArrayList<>();
+    ParseObject pushData,myoffer;
+    ParseQuery<ParseObject> query;
+    String objectId;
+    public static OffersAdapter adapter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        my_offers=inflater.inflate(R.layout.my_offers,container,false);
-        return my_offers;
+
+        offers=inflater.inflate(R.layout.my_offers,container,false);
+
+        listView=(ListView)offers.findViewById(R.id.offerslist1);
+        parseUser=ParseUser.getCurrentUser().getObjectId();
+
+        query=ParseQuery.getQuery("myoffer");
+        query.whereEqualTo("user", parseUser);
+        query.orderByDescending("createdAt");
+        query.setLimit(1000);
+
+        try
+        {
+            lst=query.find();
+        }
+        catch (ParseException e)
+        {
+            e.getMessage();
+        }
+
+        items.clear();
+
+        for(int i=0;i<lst.size();i++)
+        {
+            pushData = lst.get(i);
+
+            String offerobject=pushData.getString("offer");
+            query=ParseQuery.getQuery("Offer");
+
+            try
+            {
+                myoffer=query.get(offerobject);
+            }
+            catch (ParseException e)
+            {
+                e.printStackTrace();
+            }
+            String offertitle = myoffer.getString("OfferTitle");
+            String biz_name = myoffer.getString("Biz_name");
+            objectId=myoffer.getObjectId();
+            items.add(new Item(offertitle, biz_name,objectId));
+        }
+        adapter = new OffersAdapter(getActivity(), items);
+        listView.setAdapter(adapter);
+        return offers;
     }
+
+    public class UpdateOffers extends AsyncTask<Void,Void,Void> {
+
+        private Context mCon;
+
+        public UpdateOffers(Context con)
+        {
+            mCon=con;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            parseUser=ParseUser.getCurrentUser().getObjectId();
+
+            query=ParseQuery.getQuery("myoffer");
+            query.whereEqualTo("user", parseUser);
+            query.orderByDescending("createdAt");
+            query.setLimit(1000);
+
+            try
+            {
+                lst=query.find();
+            }
+            catch (ParseException e)
+            {
+                e.getMessage();
+            }
+
+            items.clear();
+
+            for(int i=0;i<lst.size();i++)
+            {
+                pushData = lst.get(i);
+
+                String offerobject=pushData.getString("offer");
+                query=ParseQuery.getQuery("Offer");
+
+                try
+                {
+                    myoffer=query.get(offerobject);
+                }
+                catch (ParseException e)
+                {
+                    e.printStackTrace();
+                }
+                String offertitle = myoffer.getString("OfferTitle");
+                String biz_name = myoffer.getString("Biz_name");
+                objectId=myoffer.getObjectId();
+                items.add(new Item(offertitle, biz_name,objectId));
+            }
+
+            bd.runOnUiThread(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    adapter=new OffersAdapter(getActivity(),items);
+                    listView.setAdapter(adapter);
+                }
+            });
+            return null;
+        }
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            BuyerDashboard.setRefreshActionButtonState(false);
+        }
+    }
+
+    public void populateOffers()
+    {
+        new UpdateOffers(getActivity()).execute();
+    }
+
 }

@@ -72,25 +72,26 @@ public class BuyerDashboard extends AppCompatActivity {
 
         actionBar.addTab(actionBar.newTab().setText("Offers").setTabListener(tablistener));
         actionBar.addTab(actionBar.newTab().setText("My Offers").setTabListener(tablistener));
-
     }
 
-
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         optionsMenu = menu;
         getMenuInflater().inflate(R.menu.menu_buyer_dashboard, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
         int id = item.getItemId();
         if (id == R.id.refresh)
         {
             setRefreshActionButtonState(true);
             Offers offers=new Offers();
             offers.populateOffers();
+
             return true;
         }
         else if (id == R.id.logout)
@@ -104,16 +105,21 @@ public class BuyerDashboard extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void getOverflowMenu() {
+    private void getOverflowMenu()
+    {
 
-        try {
+        try
+        {
             ViewConfiguration config = ViewConfiguration.get(this);
             Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
-            if (menuKeyField != null) {
+            if (menuKeyField != null)
+            {
                 menuKeyField.setAccessible(true);
                 menuKeyField.setBoolean(config, false);
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
     }

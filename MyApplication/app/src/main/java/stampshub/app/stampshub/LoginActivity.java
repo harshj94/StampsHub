@@ -41,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         android.support.v7.app.ActionBar ab=getSupportActionBar();
+        assert ab != null;
         ab.setLogo(R.mipmap.logo);
         ab.setDisplayUseLogoEnabled(true);
         ab.setDisplayShowHomeEnabled(true);
@@ -181,7 +182,8 @@ public class LoginActivity extends AppCompatActivity {
         String email, userpassword;
 
         @Override
-        protected void onPreExecute() {
+        protected void onPreExecute()
+        {
             super.onPreExecute();
 
             email = emailid.getText().toString();

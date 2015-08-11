@@ -1,7 +1,5 @@
 package stampshub.app.stampshub;
 
-import com.parse.ParseObject;
-
 public class Item {
 
     private String title;
@@ -26,5 +24,4 @@ public class Item {
     {
         return objectId;
     }
-    // getters and setters...
 }

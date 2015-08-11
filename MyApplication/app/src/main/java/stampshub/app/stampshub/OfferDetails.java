@@ -27,6 +27,13 @@ public class OfferDetails extends AppCompatActivity {
     String objectId;
 
     @Override
+    public void onBackPressed() {
+        Intent i=new Intent(getApplicationContext(),BuyerDashboard.class);
+        startActivity(i);
+        this.finish();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offer_details);
@@ -37,6 +44,7 @@ public class OfferDetails extends AppCompatActivity {
         btnoffer=(Button)findViewById(R.id.btnoffer);
 
         tv=(TextView)findViewById(R.id.offertitle);
+
 
 
         objectId=b.getString("objectId");
