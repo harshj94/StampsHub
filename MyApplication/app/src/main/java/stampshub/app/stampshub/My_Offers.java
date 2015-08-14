@@ -22,7 +22,7 @@ public class My_Offers extends android.support.v4.app.Fragment {
     View offers;
     public static ListView listView;
     String parseUser;
-    BuyerDashboard bd;
+    BuyerDashboard bd=new BuyerDashboard();
     List<ParseObject> lst;
     public static ArrayList<Item> items = new ArrayList<>();
     ParseObject pushData,myoffer;
@@ -43,6 +43,7 @@ public class My_Offers extends android.support.v4.app.Fragment {
         query.whereEqualTo("user", parseUser);
         query.orderByDescending("createdAt");
         query.setLimit(1000);
+        query.fromLocalDatastore();
 
         try
         {
@@ -101,8 +102,11 @@ public class My_Offers extends android.support.v4.app.Fragment {
 
             try
             {
+                ParseObject.unpinAll("myoffer");
                 lst=query.find();
+                ParseObject.pinAll("myoffer",lst);
             }
+
             catch (ParseException e)
             {
                 e.getMessage();
@@ -131,20 +135,21 @@ public class My_Offers extends android.support.v4.app.Fragment {
                 items.add(new Item(offertitle, biz_name,objectId));
             }
 
+
+            return null;
+        }
+        @Override
+        protected void onPostExecute(Void aVoid) {
+
             bd.runOnUiThread(new Runnable()
             {
                 @Override
                 public void run()
                 {
-                    adapter=new OffersAdapter(getActivity(),items);
-                    listView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
                 }
             });
-            return null;
-        }
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            BuyerDashboard.setRefreshActionButtonState(false);
+
         }
     }
 

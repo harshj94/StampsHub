@@ -40,31 +40,8 @@ public class Offers extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         offers = inflater.inflate(R.layout.offers, container, false);
         listView = (ListView) offers.findViewById(R.id.offerslist);
+
         updateOffers();
-//        user = ParseUser.getCurrentUser();
-//        ParseQuery<ParseObject> query = ParseQuery.getQuery("Offer");
-//        query.whereNotEqualTo("OfferTitle", "fff");
-//        query.orderByDescending("createdAt");
-//        query.setLimit(1000);
-//        try
-//        {
-//            lst = query.find();
-//        }
-//        catch (ParseException e)
-//        {
-//            e.printStackTrace();
-//        }
-//        items.clear();
-//        for (i = 0; i < lst.size(); i++) {
-//            pushData = lst.get(i);
-//            String offertitle = pushData.getString("OfferTitle");
-//            String biz_name = pushData.getString("Biz_name");
-//            objectId=pushData.getObjectId();
-//            items.add(new Item(offertitle, biz_name,objectId));
-//        }
-//
-//        adapter = new OffersAdapter(getActivity(), items);
-//        listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -79,6 +56,11 @@ public class Offers extends Fragment {
             }
         });
         return offers;
+    }
+
+    public void populateOffers()
+    {
+        new UpdateOffers(getActivity()).execute();
     }
 
     public class UpdateOffers extends AsyncTask<Void,Void,Void>{
@@ -101,7 +83,10 @@ public class Offers extends Fragment {
             query.setLimit(1000);
             try
             {
+                ParseObject.unpinAll("Offer");
                 lst = query.find();
+                ParseObject.pinAll("Offer",lst);
+
             }
             catch (ParseException e)
             {
@@ -137,10 +122,6 @@ public class Offers extends Fragment {
         new updateList(getActivity()).execute();
     }
 
-    public void populateOffers()
-    {
-        new UpdateOffers(getActivity()).execute();
-    }
 
     public class updateList extends AsyncTask<Void,Void,Void>
     {
@@ -162,7 +143,6 @@ public class Offers extends Fragment {
             nDialog.setIndeterminate(false);
             nDialog.setCancelable(true);
             nDialog.show();
-
         }
 
         @Override
@@ -173,6 +153,7 @@ public class Offers extends Fragment {
             query.whereNotEqualTo("OfferTitle", "fff");
             query.orderByDescending("createdAt");
             query.setLimit(1000);
+            query.fromLocalDatastore();
             try
             {
                 lst = query.find();

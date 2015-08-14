@@ -92,6 +92,10 @@ public class BuyerDashboard extends AppCompatActivity {
             Offers offers=new Offers();
             offers.populateOffers();
 
+            setRefreshActionButtonState(true);
+            My_Offers my_offers=new My_Offers();
+            my_offers.populateOffers();
+
             return true;
         }
         else if (id == R.id.logout)
