@@ -2,6 +2,17 @@
 <resources>
     resources xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <style name="AppTheme" parent="@style/_AppTheme"/>
+
+    <style name="_AppTheme" parent="Base.Theme.AppCompat.Light">
+
+        <item name="android:radioButtonStyle">@style/RadioButtonAppTheme</item>
+        <item name="android:editTextStyle">@style/EditTextAppTheme</item>
+        <item name="android:buttonStyle">@style/ButtonAppTheme</item>
+        <item name="android:imageButtonStyle">@style/ImageButtonAppTheme</item>
+        <item name="android:dropDownSpinnerStyle">@style/SpinnerAppTheme</item>
+
+    </style>
 
     <style name="Theme.Stampshub" parent="@style/Base.Theme.AppCompat.Light">
         <item name="actionBarItemBackground">@drawable/selectable_background_stampshub</item>

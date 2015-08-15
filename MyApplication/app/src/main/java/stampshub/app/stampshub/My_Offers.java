@@ -1,12 +1,13 @@
 package stampshub.app.stampshub;
 
-import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.parse.ParseException;
@@ -78,17 +79,23 @@ public class My_Offers extends android.support.v4.app.Fragment {
         }
         adapter = new OffersAdapter(getActivity(), items);
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Intent i=new Intent(getActivity(),Myofferdetails.class);
+                Item i1=items.get(position);
+                objectId=i1.getObjectId();
+                i.putExtra("objectId",objectId);
+                startActivity(i);
+                getActivity().finish();
+            }
+        });
         return offers;
     }
 
     public class UpdateOffers extends AsyncTask<Void,Void,Void> {
-
-        private Context mCon;
-
-        public UpdateOffers(Context con)
-        {
-            mCon=con;
-        }
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -155,7 +162,7 @@ public class My_Offers extends android.support.v4.app.Fragment {
 
     public void populateOffers()
     {
-        new UpdateOffers(getActivity()).execute();
+        new UpdateOffers().execute();
     }
 
 }

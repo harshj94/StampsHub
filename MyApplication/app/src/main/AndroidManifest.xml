@@ -125,6 +125,10 @@
             android:name=".OfferDetails"
             android:label="@string/title_activity_offer_details" >
         </activity>
+        <activity
+            android:name=".Myofferdetails"
+            android:label="@string/title_activity_myofferdetails" >
+        </activity>
     </application>
 
 </manifest>

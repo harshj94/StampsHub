@@ -1,7 +1,6 @@
 package stampshub.app.stampshub;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -60,17 +59,10 @@ public class Offers extends Fragment {
 
     public void populateOffers()
     {
-        new UpdateOffers(getActivity()).execute();
+        new UpdateOffers().execute();
     }
 
     public class UpdateOffers extends AsyncTask<Void,Void,Void>{
-
-        private Context mCon;
-
-        public UpdateOffers(Context con)
-        {
-            mCon=con;
-        }
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -119,19 +111,15 @@ public class Offers extends Fragment {
     }
 
     public void updateOffers(){
-        new updateList(getActivity()).execute();
+        new updateList().execute();
     }
 
 
     public class updateList extends AsyncTask<Void,Void,Void>
     {
-        private Context mCon;
         private ProgressDialog nDialog;
 
-        public updateList(Context con)
-        {
-            mCon=con;
-        }
+
 
         @Override
         protected void onPreExecute() {

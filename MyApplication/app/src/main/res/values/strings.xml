@@ -1,15 +1,8 @@
 <resources>
     <string name="app_name">Stamps Hub</string>
 
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string-array name="security_question">
-        <item>City of your first job.</item>
-        <item>Your best friend at school.</item>
-        <item>City where you were born.</item>
-        <item>Your favorite brand.</item>
-        <item>Your favorite food.</item>
-    </string-array>
+
     <string name="title_activity_select_user_type">Select User Type</string>
     <string name="title_activity_buyer_register">Buyer Register</string>
     <string name="title_activity_business_owner_register">Business Owner Register</string>
@@ -18,10 +11,6 @@
     <string name="title_activity_business_owner_registered">Business Owner Registered</string>
     <string name="title_activity_buyer_dashboard">Buyer Dashboard</string>
     <string name="title_activity_business_owner_dashboard">Business Owner Dashboard</string>
-    <string name="title_activity_buyer__dashboard">Buyer_Dashboard</string>
-
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
     <string name="title_activity_offer_details">Offer Details</string>
+    <string name="title_activity_myofferdetails">My Offer Details</string>
 </resources>

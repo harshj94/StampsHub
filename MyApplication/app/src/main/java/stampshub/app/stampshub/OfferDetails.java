@@ -45,8 +45,6 @@ public class OfferDetails extends AppCompatActivity {
 
         tv=(TextView)findViewById(R.id.offertitle);
 
-
-
         objectId=b.getString("objectId");
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Offer");
@@ -54,6 +52,7 @@ public class OfferDetails extends AppCompatActivity {
         try
         {
             offerDetails=query.get(objectId);
+
         }
         catch (ParseException e)
         {
@@ -64,7 +63,6 @@ public class OfferDetails extends AppCompatActivity {
         btnoffer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
                 parseQuery=ParseQuery.getQuery("myoffer");
                 parseQuery.whereEqualTo("user",ParseUser.getCurrentUser().getObjectId());
@@ -80,11 +78,14 @@ public class OfferDetails extends AppCompatActivity {
 
                 if(lst.size()==0)
                 {
+                    int i=0;
                     myoffer.put("user",ParseUser.getCurrentUser().getObjectId());
                     myoffer.put("offer",objectId);
+                    myoffer.put("stampscount",i);
                     try
                     {
                         myoffer.save();
+                        Toast.makeText(getApplicationContext(),"Offer Successfully added to your account.",Toast.LENGTH_LONG).show();
                     }
                     catch (ParseException e)
                     {

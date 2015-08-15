@@ -20,6 +20,7 @@ public class BusinessOwnerRegistered extends AppCompatActivity {
         setContentView(R.layout.activity_business_owner_registered);
 
         android.support.v7.app.ActionBar ab=getSupportActionBar();
+        assert ab != null;
         ab.setLogo(R.mipmap.logo);
         ab.setDisplayUseLogoEnabled(true);
         ab.setDisplayShowHomeEnabled(true);
@@ -37,17 +38,17 @@ public class BusinessOwnerRegistered extends AppCompatActivity {
         final TextView postcode = (TextView) findViewById(R.id.textView16);
 
         utype.setText(currentUser.getString("utype"));
-        bname.setText(currentUser.getString("utype"));
+        bname.setText(currentUser.getString("firstname_biz"));
         email.setText(currentUser.getEmail());
-        address1.setText(currentUser.getString("utype"));
-        address2.setText(currentUser.getString("utype"));
-        country.setText(currentUser.getString("utype"));
-        postcode.setText(currentUser.getString("utype"));
+        address1.setText(currentUser.getString("lastname_add1"));
+        address2.setText(currentUser.getString("dob_add2"));
+        country.setText(currentUser.getString("gender_country"));
+        postcode.setText(currentUser.getString("phn_postcode"));
 
         btnlogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentUser.logOut();
+                ParseUser.logOut();
                 Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(i);
                 finish();

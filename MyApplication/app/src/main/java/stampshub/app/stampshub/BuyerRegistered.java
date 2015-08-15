@@ -14,6 +14,7 @@ public class BuyerRegistered extends AppCompatActivity {
 
     Button btnlogout;
     ParseUser currentUser;
+    TextView linktodashboard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +23,7 @@ public class BuyerRegistered extends AppCompatActivity {
         setContentView(R.layout.activity_buyer_registered);
 
         android.support.v7.app.ActionBar ab=getSupportActionBar();
+        assert ab != null;
         ab.setLogo(R.mipmap.logo);
         ab.setDisplayUseLogoEnabled(true);
         ab.setDisplayShowHomeEnabled(true);
@@ -30,6 +32,7 @@ public class BuyerRegistered extends AppCompatActivity {
 
         currentUser=ParseUser.getCurrentUser();
 
+        linktodashboard=(TextView)findViewById(R.id.link_to_login);
         final TextView utype = (TextView) findViewById(R.id.textView4);
         final TextView fname = (TextView) findViewById(R.id.textView6);
         final TextView lname = (TextView) findViewById(R.id.textView8);
@@ -38,22 +41,35 @@ public class BuyerRegistered extends AppCompatActivity {
         final TextView phnnum = (TextView) findViewById(R.id.textView14);
         final TextView dob = (TextView) findViewById(R.id.textView16);
 
+
         utype.setText(currentUser.getString("utype"));
-        fname.setText(currentUser.getString("utype"));
-        lname.setText(currentUser.getString("utype"));
+        fname.setText(currentUser.getString("firstname_biz"));
+        lname.setText(currentUser.getString("lastname_add1"));
         email.setText(currentUser.getEmail());
-        gender.setText(currentUser.getString("utype"));
-        phnnum.setText(currentUser.getString("utype"));
-        dob.setText(currentUser.getString("utype"));
+        gender.setText(currentUser.getString("gender_country"));
+        phnnum.setText(currentUser.getString("phn_postcode"));
+        dob.setText(currentUser.getString("dob_add2"));
 
 
         btnlogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentUser.logOut();
-                Intent i = new Intent(getApplicationContext(),LoginActivity.class);
+                ParseUser.logOut();
+                Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(i);
                 finish();
+            }
+        });
+
+        linktodashboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(getApplicationContext(), BuyerDashboard.class);
+                startActivity(i);
+                overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
+                finish();
+
             }
         });
     }

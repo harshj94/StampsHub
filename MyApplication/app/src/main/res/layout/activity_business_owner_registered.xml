@@ -17,10 +17,7 @@
             android:background="@drawable/footer_repeat"
             android:layout_alignParentBottom="true">
         </LinearLayout>
-        <!-- Place footer next to header to set z-index property to minus value -->
-        <!-- Footer Ends -->
 
-        <!-- Login Form -->
         <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:orientation="vertical"
