@@ -41,7 +41,6 @@ public class BuyerRegistered extends AppCompatActivity {
         final TextView phnnum = (TextView) findViewById(R.id.textView14);
         final TextView dob = (TextView) findViewById(R.id.textView16);
 
-
         utype.setText(currentUser.getString("utype"));
         fname.setText(currentUser.getString("firstname_biz"));
         lname.setText(currentUser.getString("lastname_add1"));
@@ -49,7 +48,6 @@ public class BuyerRegistered extends AppCompatActivity {
         gender.setText(currentUser.getString("gender_country"));
         phnnum.setText(currentUser.getString("phn_postcode"));
         dob.setText(currentUser.getString("dob_add2"));
-
 
         btnlogout.setOnClickListener(new View.OnClickListener() {
             @Override
