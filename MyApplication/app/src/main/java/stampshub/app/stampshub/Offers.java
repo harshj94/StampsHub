@@ -51,6 +51,7 @@ public class Offers extends Fragment {
                 objectId=i1.getObjectId();
                 i.putExtra("objectId",objectId);
                 startActivity(i);
+                getActivity().overridePendingTransition(R.anim.trans_right_in,R.anim.trans_right_out);
                 getActivity().finish();
             }
         });

@@ -13,6 +13,7 @@ public class BusinessOwnerRegistered extends AppCompatActivity {
 
     ParseUser currentUser;
     Button btnlogout;
+    TextView tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,7 @@ public class BusinessOwnerRegistered extends AppCompatActivity {
 
         currentUser=ParseUser.getCurrentUser();
 
+        tv=(TextView)findViewById(R.id.link_to_login);
         final TextView utype = (TextView) findViewById(R.id.textView4);
         final TextView bname = (TextView) findViewById(R.id.textView6);
         final TextView email = (TextView) findViewById(R.id.textView8);
@@ -51,7 +53,20 @@ public class BusinessOwnerRegistered extends AppCompatActivity {
                 ParseUser.logOut();
                 Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(i);
+                overridePendingTransition(R.anim.trans_left_out, R.anim.trans_left_in);
                 finish();
+            }
+        });
+
+        tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(getApplicationContext(), BusinessOwnerDashboard.class);
+                startActivity(i);
+                overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
+                finish();
+
             }
         });
 

@@ -55,6 +55,7 @@ public class BuyerRegistered extends AppCompatActivity {
                 ParseUser.logOut();
                 Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(i);
+                overridePendingTransition(R.anim.trans_left_out, R.anim.trans_left_in);
                 finish();
             }
         });

@@ -22,9 +22,23 @@ public class Myofferdetails extends AppCompatActivity {
     String objectId;
 
     @Override
+    public void onBackPressed() {
+        Intent i=new Intent(getApplicationContext(),BuyerDashboard.class);
+        startActivity(i);
+        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
+        finish();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myofferdetails);
+
+        android.support.v7.app.ActionBar ab = getSupportActionBar();
+        assert ab != null;
+        ab.setLogo(R.mipmap.logo);
+        ab.setDisplayUseLogoEnabled(true);
+        ab.setDisplayShowHomeEnabled(true);
 
         Intent i=getIntent();
         Bundle b=i.getExtras();
@@ -45,22 +59,5 @@ public class Myofferdetails extends AppCompatActivity {
         }
         tv.setText(offerDetails.getString("OfferTitle"));
 
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_myofferdetails, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }

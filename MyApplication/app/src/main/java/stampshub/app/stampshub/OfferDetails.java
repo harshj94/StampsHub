@@ -30,13 +30,20 @@ public class OfferDetails extends AppCompatActivity {
     public void onBackPressed() {
         Intent i=new Intent(getApplicationContext(),BuyerDashboard.class);
         startActivity(i);
-        this.finish();
+        overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
+        finish();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offer_details);
+
+        android.support.v7.app.ActionBar ab = getSupportActionBar();
+        assert ab != null;
+        ab.setLogo(R.mipmap.logo);
+        ab.setDisplayUseLogoEnabled(true);
+        ab.setDisplayShowHomeEnabled(true);
 
         Intent i=getIntent();
         Bundle b=i.getExtras();

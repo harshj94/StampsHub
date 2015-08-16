@@ -89,6 +89,7 @@ public class My_Offers extends android.support.v4.app.Fragment {
                 objectId=i1.getObjectId();
                 i.putExtra("objectId",objectId);
                 startActivity(i);
+                getActivity().overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
                 getActivity().finish();
             }
         });
