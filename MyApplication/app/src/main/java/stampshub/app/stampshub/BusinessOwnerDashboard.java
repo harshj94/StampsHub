@@ -50,13 +50,11 @@ public class BusinessOwnerDashboard extends AppCompatActivity {
 
                 offer.put("OfferTitle",offer_title.getText().toString());
                 offer.put("Biz_name",user.getString("firstname_biz"));
-                offer.put("user", ParseUser.getCurrentUser());
+                offer.put("user", ParseUser.getCurrentUser().getObjectId());
                 offer.saveInBackground();
                 Toast.makeText(getApplicationContext(),"Done",Toast.LENGTH_LONG).show();
             }
         });
-
-
     }
 
     @Override

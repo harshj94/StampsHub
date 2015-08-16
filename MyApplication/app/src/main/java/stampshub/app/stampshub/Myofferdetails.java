@@ -1,12 +1,16 @@
 package stampshub.app.stampshub;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,8 +23,8 @@ import java.util.List;
 
 public class Myofferdetails extends AppCompatActivity {
 
-    ParseObject offerDetails,forstampcount;
-    TextView tv,stampscount;
+    public static ParseObject offerDetails,forstampcount,foraddingstamp;
+    public static TextView tv,stampscount;
     String objectId,user;
     List<ParseObject> lst;
     Button addstamp;
@@ -78,20 +82,64 @@ public class Myofferdetails extends AppCompatActivity {
 
         addstamp.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                forstampcount.increment("stampscount");
-                try
-                {
-                    forstampcount.save();
-                    forstampcount.pin();
-                }
-                catch (ParseException e)
-                {
-                    e.printStackTrace();
-                }
-                stampscount.setText(" "+forstampcount.getInt("stampscount"));
+            public void onClick(View v)
+            {
+                AlertDialog.Builder alert = new AlertDialog.Builder(Myofferdetails.this);
+
+                alert.setTitle("Business Owner Password");
+                alert.setMessage("Kindly enter the secret key of the Business owner");
+                final EditText input = new EditText(Myofferdetails.this);
+                input.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                alert.setView(input);
+
+                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        String value = input.getText().toString();
+                        checkkeyforbusiness(value);
+                    }
+                });
+
+                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Canceled.
+                    }
+                });
+
+                alert.show();
             }
         });
+
+    }
+    void checkkeyforbusiness(String key)
+    {
+        String bizobjectid=offerDetails.getString("user");
+        ParseQuery<ParseUser> query3 =ParseUser.getQuery();
+        try
+        {
+            foraddingstamp=query3.get(bizobjectid);
+        }
+        catch (ParseException e)
+        {
+            e.printStackTrace();
+        }
+        if(key.equals(foraddingstamp.getString("firstname_biz")))
+        {
+            forstampcount.increment("stampscount");
+            try
+            {
+                forstampcount.save();
+                forstampcount.pin();
+            }
+            catch (ParseException e)
+            {
+                e.printStackTrace();
+            }
+            stampscount.setText(" "+forstampcount.getInt("stampscount"));
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(),"Incorrect Key",Toast.LENGTH_LONG).show();
+        }
 
     }
 }
