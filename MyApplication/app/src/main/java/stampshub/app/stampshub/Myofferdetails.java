@@ -2,15 +2,15 @@ package stampshub.app.stampshub;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.InputType;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +28,7 @@ public class Myofferdetails extends AppCompatActivity {
     String objectId,user;
     List<ParseObject> lst;
     Button addstamp;
+    public static LinearLayout linearLayout;
 
     @Override
     public void onBackPressed() {
@@ -53,6 +54,7 @@ public class Myofferdetails extends AppCompatActivity {
         Intent i=getIntent();
         Bundle b=i.getExtras();
 
+        linearLayout=(LinearLayout)findViewById(R.id.images);
         addstamp=(Button)findViewById(R.id.addstamp);
         tv=(TextView)findViewById(R.id.offertitle);
         stampscount=(TextView)findViewById(R.id.stampscount);
@@ -78,18 +80,27 @@ public class Myofferdetails extends AppCompatActivity {
         }
         forstampcount=lst.get(0);
         tv.setText(offerDetails.getString("OfferTitle"));
-        stampscount.setText(" "+forstampcount.getInt("stampscount"));
+        int count=forstampcount.getInt("stampscount");
+        stampscount.setText(" "+count);
+        linearLayout.removeAllViews();
+        for(int x=0;x<count;x++) {
+            ImageView image = new ImageView(Myofferdetails.this);
+            image.setImageResource(R.mipmap.ic_launcher);
+            linearLayout.addView(image);
+        }
 
         addstamp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
+
                 AlertDialog.Builder alert = new AlertDialog.Builder(Myofferdetails.this);
 
                 alert.setTitle("Business Owner Password");
                 alert.setMessage("Kindly enter the secret key of the Business owner");
                 final EditText input = new EditText(Myofferdetails.this);
                 input.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                input.setHint("Enter Secret Key");
                 alert.setView(input);
 
                 alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -135,6 +146,14 @@ public class Myofferdetails extends AppCompatActivity {
                 e.printStackTrace();
             }
             stampscount.setText(" "+forstampcount.getInt("stampscount"));
+            int count=forstampcount.getInt("stampscount");
+            stampscount.setText(" "+count);
+            linearLayout.removeAllViews();
+            for(int x=0;x<count;x++) {
+                ImageView image = new ImageView(Myofferdetails.this);
+                image.setImageResource(R.mipmap.ic_launcher);
+                linearLayout.addView(image);
+            }
         }
         else
         {

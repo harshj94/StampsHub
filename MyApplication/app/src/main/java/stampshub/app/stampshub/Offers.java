@@ -119,9 +119,6 @@ public class Offers extends Fragment {
     public class updateList extends AsyncTask<Void,Void,Void>
     {
         private ProgressDialog nDialog;
-
-
-
         @Override
         protected void onPreExecute() {
 
