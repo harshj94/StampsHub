@@ -6,22 +6,22 @@ public class Item {
     private String description;
     private String objectId;
 
-    public Item(String title, String description,String objectId) {
+    public Item(String title, String description, String objectId) {
         super();
         this.title = title;
         this.description = description;
-        this.objectId=objectId;
+        this.objectId = objectId;
     }
-    public String getTitle()
-    {
+
+    public String getTitle() {
         return title;
     }
-    public String getDescription()
-    {
+
+    public String getDescription() {
         return description;
     }
-    public String getObjectId()
-    {
+
+    public String getObjectId() {
         return objectId;
     }
 }

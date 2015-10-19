@@ -129,13 +129,17 @@ public class BuyerDashboard extends AppCompatActivity {
     }
 
     public static void setRefreshActionButtonState(final boolean refreshing) {
-        if (optionsMenu != null) {
-            final MenuItem refreshItem = optionsMenu
-                    .findItem(R.id.refresh);
-            if (refreshItem != null) {
-                if (refreshing) {
+        if (optionsMenu != null)
+        {
+            final MenuItem refreshItem = optionsMenu.findItem(R.id.refresh);
+            if (refreshItem != null)
+            {
+                if (refreshing)
+                {
                     refreshItem.setActionView(R.layout.actionbar_indeterminate_progress);
-                } else {
+                }
+                else
+                {
                     refreshItem.setActionView(null);
                 }
             }
